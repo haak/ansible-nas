@@ -17,3 +17,13 @@ Session.vim
 
 # IntelliJ
 /.idea/
+
+
+.vscode/settings.json
+roles/linux/files/.taskrc
+roles/samba/files/smb.conf
+roles/server/files/smb.conf
+bootstrap1.sh
+.venv/
+vault.yml
+roles/linux/files/sudoers_alex

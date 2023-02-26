@@ -1,0 +1,16 @@
+- name: Create audiobookshelf container
+  docker_container:
+    name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    state: "{{audiobookshelf_state}}"
+    volumes:
+      - "{{ audiobookshelf_config_directory }}/app/config:/config"
+      - "{{ audiobookshelf_metadata_directory }}/app/metadata:/metadata"
+      - "{{ podcasts_directory }}:/podcasts"
+      - "{{ audiobooks_directory }}:/audiobooks"
+    ports:
+      - "{{ audiobookshelf_port }}:80"
+    env:
+      AUDIOBOOKSHELF_UID: "{{ audiobookshelf_user_id }}"
+      AUDIOBOOKSHELF_GID: "{{ audiobookshelf_group_id }}"
+    restart_policy: unless-stopped

@@ -1,0 +1,13 @@
+---
+audiobookshelf_state: started
+audiobookshelf_config_directory: "{{ docker_home }}/audiobookshelf/config"
+# audiobookshelf_directory: "{{ docker_home }}/audiobookshelf/" this should move to this
+
+audiobookshelf_metadata_directory: "{{ docker_home }}/audiobookshelf/"
+podcasts_directory: "{{ samba_shares_root }}/downloads/media/podcasts"
+audiobooks_directory: "{{ samba_shares_root }}/downloads/media/audiobooks"
+
+audiobookshelf_port: "8065"
+
+audiobookshelf_user_id: "{{ nas_services_user_id }}"
+audiobookshelf_group_id: "{{ nas_services_group_id }}"

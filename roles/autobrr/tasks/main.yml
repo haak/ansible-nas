@@ -1,0 +1,36 @@
+---
+- name: Create autobrr Directories with user permissions
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: alex
+    group: alex
+  with_items:
+    - "{{ autobrr_data_directory }}"
+
+- name: autobrr
+  docker_container:
+    name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    pull: true
+    # user: "{{autobrr_user_id}}:{{autobrr_group_id}}"
+    volumes:
+      - "{{ autobrr_data_directory }}:/config:rw"
+    ports:
+      - "{{ autobrr_port }}:7474"
+    env:
+      # PASSWORD: "{{ autobrr_password }}"
+      TZ: "{{ ansible_nas_timezone }}"
+      # PUID: "{{ autobrr_user_id }}"
+      # PGID: "{{ autobrr_group_id }}"
+    restart_policy: unless-stopped
+    # memory: "{{ autobrr_memory }}"
+    labels:
+      traefik.enable: "{{ autobrr_available_externally }}"
+      traefik.http.routers.autobrr.rule: "Host(`{{ autobrr_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.autobrr.tls.certresolver: "letsencrypt"
+      traefik.http.routers.autobrr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.autobrr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.autobrr.loadbalancer.server.port: "7474"
+
+

@@ -1,0 +1,21 @@
+--- 
+
+autobrr_enabled: false
+autobrr_available_externally: "false"
+
+# directories
+autobrr_data_directory: "{{ docker_home }}/autobrr/config"
+# autobrr_download_directory: "{{ storage_root }}/downloads/media"
+
+
+# uid/gid
+autobrr_user_id: "1000"
+autobrr_group_id: "1000"
+
+# network
+autobrr_port: "7474"
+autobrr_hostname: "autobrr"
+
+# specs
+autobrr_memory: 1g
+autobrr_password: "password"

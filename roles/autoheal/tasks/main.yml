@@ -1,0 +1,13 @@
+---
+- name: Create autoheal container
+  docker_container:
+    name: autoheal
+    image: willfarrell/autoheal
+    pull: true
+    state: "{{autoheal_state}}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart_policy: unless-stopped
+    env:
+      AUTOHEAL_CONTAINER_LABEL: all
+    memory: 1g

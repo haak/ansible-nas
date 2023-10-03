@@ -1,0 +1,27 @@
+---
+# defaults file for roles/actualserver
+# actualserver_available_externally: "false"
+# actualserver_enabled: false
+# # directories
+# actualserver_data_directory: "{{ docker_home }}/actualserver"
+# actualserver_data: "{{ docker_home }}/actualserver/data"
+# actualserver_user_data: "{{ docker_home }}/actualserver/user_data"
+
+# actualserver_hostname: actualserver
+# # uid / gid
+# # actualserver_user_id: "1312"
+# # actualserver_group_id: "1312"
+# actualserver_user_id: "1000"
+# actualserver_group_id: "1000"
+# # specs
+# actualserver_memory: 1g
+# actualserver_port_http: "8781"
+actual_container_name: actualserver
+actual_port: "5006"
+actual_hostname: actual
+actual_memory: 1g
+# hello_world_data_directory: "{{ docker_home }}/actualserver"
+actual_container_image: jlongster/actual-server:latest
+actual_data_directory: "{{ docker_home }}/actualserver"
+actual_enabled: false
+actual_available_externally: false

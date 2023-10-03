@@ -1,0 +1,39 @@
+---
+# tasks file for roles/alacritty
+# check if alacritty is installed
+- name: Check if alacritty is installed
+  stat:
+    path: /usr/bin/alacritty
+  register: alacritty_installed
+
+# if not installed, install alacritty
+- name: Install alacritty
+  package:
+    name: alacritty
+    state: present
+  when: not alacritty_installed.stat.exists
+
+# check if alacritty config exists
+- name: Check if alacritty config exists
+  stat:
+    path: /home/{{ ansible_user }}/.config/alacritty/alacritty.yml
+  register: alacritty_config_exists
+
+# make alacritty config directory
+- name: Make alacritty config directory
+  file:
+    path: /home/{{ ansible_user }}/.config/alacritty
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  when: not alacritty_config_exists.stat.exists
+
+# if not exists copy from files
+- name: Copy alacritty config
+  copy:
+    src: alacritty.yml
+    dest: /home/{{ ansible_user }}/.config/alacritty/alacritty.yml
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+  when: not alacritty_config_exists.stat.exists

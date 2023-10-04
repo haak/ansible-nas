@@ -33,3 +33,9 @@ roles/linux/files/id_rsa.pub
 .DS_Store
 .vault_pass
 docker-notes.md
+docker/drone/docker-compose.yml
+docker/actualserver/docker-compose.yml
+docker/gitea/.env
+docker/homer/.env
+terraform/kelleher-openrc.sh
+terraform/proxmox.sh

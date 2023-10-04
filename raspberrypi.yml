@@ -1,0 +1,6 @@
+- hosts: raspberrypi
+  tags: raspberrypi
+  become: true
+  roles:
+    - artis3n.tailscale
+  ignore_unreachable: true

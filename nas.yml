@@ -1,6 +1,5 @@
 ---
 - hosts: all
-
   roles:
     ###
     ### Requirements
@@ -859,4 +858,3 @@
       tags:
         - serviio
       when: (serviio_enabled | default(False))
-

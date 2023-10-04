@@ -1,0 +1,8 @@
+# - import_playbook: linux.yml
+# - import_playbook: server.yml
+# - import_playbook: workstation.yml
+# - import_playbook: raspberrypi.yml
+# - import_playbook: windows.yml
+# - import_playbook: openstack.yml
+
+- import_playbook: dynamic-roles/dynamic-roles-playbook.yml

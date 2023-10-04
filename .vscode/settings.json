@@ -1,3 +1,4 @@
 {
-    "yaml.schemaStore.enable": false
+    "yaml.schemaStore.enable": false,
+    "ansible.python.interpreterPath": "/Users/kelleher/.pyenv/versions/3.11.2/bin/python"
 }

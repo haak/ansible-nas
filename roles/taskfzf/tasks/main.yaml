@@ -1,0 +1,15 @@
+# - name: Git checkout
+#   ansible.builtin.git:
+#     repo: 'https://foosball.example.org/path/to/repo.git'
+#     dest: /srv/checkout
+#     version: release-0.22
+
+
+- name: Copy taskfzf to script location
+  ansible.builtin.copy:
+    src: taskfzf.sh
+    dest: /usr/local/bin/taskfzf
+    owner: root
+    group: root
+    # remote_src: yes
+    mode: '0755'

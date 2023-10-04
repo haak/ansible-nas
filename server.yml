@@ -1,0 +1,272 @@
+---
+- hosts: server
+  tags: server
+  become: true
+  roles:
+    - role: vscode-server
+      tags:
+        - vscode-server
+      when: (vscode_server_enabled | default(False))
+
+    - role: uptimekuma
+      tags:
+        - uptimekuma
+      when: (uptimekuma_enabled | default(False))
+
+    - role: samba
+      tags:
+        - samba
+      when: (samba_enabled | default(False))
+
+    - role: qbittorrent
+      tags:
+        - qbittorrent
+      when: (qbittorrent_enabled | default(False))
+
+    - role: photoprism
+      tags:
+        - photoprism
+      when: (photoprism_enabled | default(False))
+
+    - role: openbudgeteer
+      tags:
+        - openbudgeteer
+      when: (openbudgeteer_enabled | default(False))
+    - role: openbooks
+      tags:
+        - openbooks
+      when: (openbooks_enabled | default(False))
+
+    - role: prowlarr
+      tags:
+        - prowlarr
+      when: (prowlarr_enabled | default(False))
+
+    - role: linx
+      tags:
+        - linx
+      when: (linx_enabled | default(False))
+
+    - role: lidarr
+      tags:
+        - lidarr
+      when: (lidarr_enabled | default(False))
+
+    - role: jellyfin
+      tags:
+        - jellyfin
+      when: (jellyfin_enabled | default(False))
+
+    - role: guacamole
+      tags:
+        - guacamole
+      when: (guacamole_enabled | default(False))
+
+    - role: grafana
+      tags:
+        - grafana
+      when: (grafana_enabled | default(False))
+
+    - role: firefly-3
+      tags:
+        - firefly-3
+      when: (firefly_3_enabled | default(False))
+
+    - role: dozzle
+      tags:
+        - dozzle
+      when: (dozzle_enabled | default(False))
+
+    - role: cf-companion
+      tags:
+        - cf-companion
+      when: (cf_companion_enabled | default(False))
+
+    - role: cloudflare-ddns
+      tags:
+        - cloudflare-ddns
+      when: (cloudflare_ddns_enabled | default(False))
+
+    - role: calibre
+      tags:
+        - calibre
+      when: (calibre_enabled | default(False))
+
+    - role: server
+      tags:
+        - server
+      when: (server_enabled | default(False))
+
+    - role: autoheal
+      tags:
+        - autoheal
+      when: (autoheal_enabled | default(False))
+
+    - role: caddy
+      tags:
+        - caddy
+      when: (caddy_enabled | default(False))
+
+    - role: wireguard-gui
+      tags:
+        - wireguard-gui
+      when: (wireguard_gui_enabled | default(False))
+
+    - role: paperless_ng
+      tags:
+        - paperless_ng
+      when: (paperless_ng_enabled | default(False))
+
+    - role: homer
+      tags:
+        - homer
+      when: (homer_enabled | default(False))
+
+    - role: nginx_proxy_manager
+      tags:
+        - nginx_proxy_manager
+      when: (nginx_proxy_manager_enabled | default(False))
+
+    - role: traefik
+      tags:
+        - traefik
+      when: (traefik_enabled | default(False))
+
+    - role: bazarr
+      tags:
+        - bazarr
+      when: (bazarr_enabled | default(False))
+
+    - role: emby
+      tags:
+        - emby
+      when: (emby_enabled | default(False))
+
+    - role: homeassistant
+      tags:
+        - homeassistant
+      when: (homeassistant_enabled | default(False))
+
+    - role: jackett
+      tags:
+        - jackett
+      when: (jackett_enabled | default(False))
+
+    - role: lidarr
+      tags:
+        - lidarr
+      when: (lidarr_enabled | default(False))
+
+    - role: minidlna
+      tags:
+        - minidlna
+      when: (minidlna_enabled | default(False))
+
+    - role: n8n
+      tags:
+        - n8n_enabled
+      when: (n8n_enabled | default(False))
+
+    - role: nextcloud
+      tags:
+        - nextcloud
+      when: (nextcloud_enabled | default(False))
+
+    - role: portainer
+      tags:
+        - portainer
+      when: (portainer_enabled | default(False))
+
+    - role: prowlarr
+      tags:
+        - prowlarr
+      when: (prowlarr_enabled | default(False))
+
+    - role: ombi
+      tags:
+        - ombi
+      when: (ombi_enabled | default(False))
+
+    - role: radarr
+      tags:
+        - radarr
+      when: (radarr_enabled | default(False))
+
+    - role: sonarr
+      tags:
+        - sonarr
+      when: (sonarr_enabled | default(False))
+
+    - role: syncthing
+      tags:
+        - syncthing
+      when: (syncthing_enabled | default(False))
+
+    - role: watchtower
+      tags:
+        - watchtower
+      when: (watchtower_enabled | default(False))
+
+    - role: webtop
+      tags:
+        - webtop
+
+    - role: pihole
+      tags:
+        - pihole
+      when: (pihole_enabled | default(False))
+
+    - role: vaultwarden
+      tags:
+        - vaultwarden
+      when: (vaultwarden_enabled | default(False))
+
+    - role: sabnzbd
+      tags:
+        - sabnzbd
+      when: (sabnzbd_enabled | default(False))
+
+    - role: beancount-fava
+      tags:
+        - beancount-fava
+        - beancount
+        - fava
+      when: (beancount_fava_enabled | default(False))
+
+    - role: duf
+      tags:
+        - duf
+      when: (duf_enabled | default(False))
+
+    - role: pigallery2
+      tags:
+        - pigallery2
+      when: (pigallery2_enabled | default(False))
+
+    - role: budge
+      tags:
+        - budge
+      when: (budge_enabled | default(False))
+
+    - role: audiobookshelf
+      tags:
+        - audiobookshelf
+      when: (audiobookshelf_enabled | default(False))
+
+    - role: deemix
+      tags:
+        - deemix
+      when: (deemix_enabled | default(False))
+
+    - role: dashdot
+      tags:
+        - dashdot
+
+  post_tasks:
+    - name: Clean up stopped applications
+      command: /bin/true
+      notify: "stop disabled applications"
+      tags:
+        - stop_disabled_applications
+
+  ignore_unreachable: true

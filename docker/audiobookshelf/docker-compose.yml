@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    restart: always
+    ports:
+      - 13378:80
+    volumes:
+      - /Users/kelleher/docker-mounts/audiobookshelf/audiobooks:/audiobooks
+      - /Users/kelleher/docker-mounts/audiobookshelf/config:/config
+      - /Users/kelleher/docker-mounts/audiobookshelf/metadata:/metadata

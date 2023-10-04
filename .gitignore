@@ -27,3 +27,9 @@ bootstrap1.sh
 .venv/
 vault.yml
 roles/linux/files/sudoers_alex
+roles/linux/files/id_rsa.pub
+.github
+.vscode
+.DS_Store
+.vault_pass
+docker-notes.md

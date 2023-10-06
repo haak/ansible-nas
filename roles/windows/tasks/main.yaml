@@ -1,0 +1,79 @@
+---
+# - name: Install chocolatey
+#   win_chocolatey:
+#       name:
+#         - chocolatey
+#         - chocolatey-core.extension
+#       state: present
+
+- name: Ensure configured Chocolatey packages are installed.
+  win_chocolatey:
+    name: "{{ item.name | default(item) }}"
+    ignore_checksums: true
+    state: present
+  loop: "{{ choco_installed_packages }}"
+
+- name: Upgrade installed Chocolatey packages.
+  win_chocolatey:
+    name: all
+    state: latest
+
+
+# - name: install the Win32-OpenSSH service
+#   win_chocolatey:
+#     name: openssh
+#     package_params: /SSHServerFeature
+#     state: present
+
+# - name: Install multiple packages sequentially
+#   win_chocolatey:
+#     name: '{{ win_packages }}'
+#     state: present
+
+
+# - name: Install design packages
+#   win_chocolatey:
+#     name: '{{ item }}'
+#     state: present
+#   loop:
+#   - gimp
+#   - shotcut
+
+
+# - name: Install talking packages
+#   win_chocolatey:
+#     name: '{{ item }}'
+#     state: present
+#   loop:
+#   - zoom
+#   - microsoft-teams
+#   - telegram
+#   - discord
+
+# - name: Install gaming packages
+#   win_chocolatey:
+#     name: '{{ item }}'
+#     state: absent
+#   loop:
+#   - steam-client
+#   - epicgameslauncher
+#   - playnite
+#   - battle.net
+
+# - name: Install music
+#   win_chocolatey:
+#     name: '{{ item }}'
+#     state: absent
+#   loop:
+#   - musicbee
+
+# - name: Upgrade installed packages
+#   win_chocolatey:
+#     name: all
+#     state: latest
+
+- name: Add 127.0.0.1 as an A record for localhost
+  community.windows.win_hosts:
+    state: present
+    canonical_name: localhost
+    ip_address: 127.0.0.1

@@ -1,0 +1,110 @@
+---
+# check zsh is installed
+- name: Check zsh is installed
+  command: which zsh
+  register: zsh_installed
+  changed_when: false
+  failed_when: false
+
+# install zsh
+- name: Install zsh
+  package:
+    name: zsh
+    state: present
+  become: true
+  when: zsh_installed.rc != 0
+
+# - name: Create zsh config directory
+#   file:
+#     path: "{{ zsh_config_dir }}"
+#     state: directory
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
+#     mode: 0755
+
+- name: make zsh default shell
+  command: chsh -s /bin/zsh
+  become: true
+  when: zsh_installed.rc == 0
+
+- name: install plugin
+  git:
+    repo: "{{ item }}"
+    dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/{{ item.split('/')[-1] }}"
+    update: yes
+  with_items:
+    - https://github.com/joshskidmore/zsh-fzf-history-search 
+
+# git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
+
+
+
+# - name: Create zsh config file
+#   template:
+#     src: zshrc.j2
+#     dest: "{{ zsh_config_dir }}/zshrc"
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
+#     mode: 0644
+
+# - name: Check oh my zsh is installed
+#   command: test -d "{{ user_home }}/.oh-my-zsh"
+#   register: omz_installed
+#   changed_when: false
+#   failed_when: false
+
+# - name: Install oh my zsh
+#   command: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#   when: omz_installed.rc != 0
+#   become: yes
+#   become_user: '{{ ansible_user }}'
+
+# - name: Copy zshrc
+#   copy:
+#     src: ".zshrc"
+#     dest: "{{ user_home }}/.zshrc"
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
+#     mode: 0644
+
+# this task will remove .zshrc and remove .zsh folder
+- name: Cleanup zsh
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ user_home }}/.zshrc"
+    - "{{ user_home }}/.zsh"
+  when: zsh_cleanup
+# - name: install plugins:
+#   git:
+#     repo: "{{ item }}"
+#     dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/{{ item.split('/')[-1] }}"
+#     update: yes
+
+# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+# git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
+
+# git clone https://github.com/thirteen37/fzf-alias ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/fzf-alias
+
+# cd ~/.oh-my-zsh/custom/plugins
+# git clone git@github.com:thirteen37/fzf-alias.git fzf-alias
+# add to .zshrc
+# plugins=(fzf-alias)
+
+# # sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# # TODO: setup zsh
+# # TODO: install oh my zsh
+
+# # set default shell to be zsh
+# - name: set default shell for {{user_name}} to be zsh
+#   user:
+#     name: "{{user_name}}"
+#     shell: /usr/bin/zsh
+#     update_password: always
+#   become: true
+#   become_user: root
+
+# # TODO: zsh-fzf-history-search
+# # git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
+# # plugins=(… zsh-fzf-history-search)

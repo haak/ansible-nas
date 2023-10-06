@@ -1,0 +1,36 @@
+---
+
+# - name: Get url from files in directory
+#   find:
+#     paths: "{{ wallpaper_dir }}"
+#     file_type: file
+#     patterns: "*.jpg"
+#   register: wallpaper_files
+
+
+# - name: Set GNOME Wallpaper
+#   become_user: alex
+#   dconf: key="/org/gnome/desktop/background/picture-uri" value="'{{wallpaper_url}}'"
+
+
+- name: Set GNOME Wallpaper
+  become_user: alex
+  dconf: key="/org/gnome/desktop/background/picture-uri" value="'file:///home/alex/.local/share/backgrounds/2022-12-19-16-02-29-Endy_vector_EOS-planet_ultrawide.png'"
+
+- name: Set GNOME Wallpaper
+  become_user: alex
+  dconf: key="/org/gnome/desktop/background/picture-uri-dark" value="'file:///home/alex/.local/share/backgrounds/2022-12-19-16-02-29-Endy_vector_EOS-planet_ultrawide.png'"
+
+# org.gnome.desktop.background picture-uri-dark
+
+# - name: run command
+#   become_user: alex
+#   command: gsettings set org.gnome.desktop.background picture-uri file:///home/alex/.local/share/backgrounds/2022-12-19-16-02-29-Endy_vector_EOS-planet_ultrawide.png
+
+
+# - name: 
+#   become_user: alex
+#   shell: gsettings set org.gnome.desktop.background picture-uri file:///home/alex/.local/share/backgrounds/2022-12-19-16-02-29-Endy_vector_EOS-planet_ultrawide.png
+
+# gsettings get org.gnome.desktop.background picture-uri file:///usr/share/endeavouros/backgrounds/endeavouros-wallpaper.png
+# file:///home/alex/.local/share/backgrounds/2022-12-19-16-02-29-Endy_vector_EOS-planet_ultrawide.png

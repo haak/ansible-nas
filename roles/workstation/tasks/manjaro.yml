@@ -1,0 +1,45 @@
+---
+- name: Update cache and upgrade
+  pacman:
+    update_cache: yes
+    upgrade: yes
+    upgrade_extra_args: "--noconfirm"
+  become: true
+  tags:
+    - pre
+
+- name: Install Utils
+  pacman:
+    name: '{{ utils }}'
+    state: present
+  become: true
+  tags:
+    - utils
+
+- name: Install Utils from Arch User Repository
+  shell: |
+    pamac build -d --no-confirm {{ item }} | grep "is up to date"
+    if [ $? != 0 ]; then
+      pamac build --no-confirm {{ item }}
+    fi
+  with_items: '{{ utils_aur }}'
+  become: true
+  register: command_result
+  failed_when: command_result.rc != 0
+  changed_when: "'successfully' in command_result.stdout"
+  tags:
+    - base
+    - aur
+
+- include: ntp.yml
+- include: pip.yml
+- include: bash.yml
+- include: zsh.yml
+- include: terminator.yml
+
+- name: Creates Workspace directory
+  file:
+    path: /home/{{ user_name }}/Workspace
+    state: directory
+  become_user: '{{ user_name }}'
+  become: true

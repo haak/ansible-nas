@@ -1,0 +1,42 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+  - name: install programs
+    package:
+      name:
+        - htop
+        - git
+        - tmux
+        - vim
+
+  - name: copy wallpaper file
+    copy:
+      src: files/wallpaper.png
+      dest: /usr/share/backgrounds/ansible-wallpaper.png
+      owner: root
+      group: root
+
+  - name: copy bashrc
+    copy:
+      src: files/bashrc
+      dest: /usr/alex/.bashrc
+      owner: alex
+      group: alex
+
+  - name: add ansible user
+    user:
+      name: velociraptor
+      system: yes
+
+
+  - name: set up sudo for ansible user
+    copy:
+      src: files/sudoer_velociraptor
+      dest: /etc/sudoers.d/velociraptor
+      owner: root
+      group: root
+      mode: 0440

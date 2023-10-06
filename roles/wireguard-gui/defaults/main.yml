@@ -1,0 +1,11 @@
+
+wireguard_gui_enabled: false
+wireguard_enabled: false
+wireguard_enabled_public: false
+
+
+wireguard_gui_data: "{{ docker_home }}/wireguard_gui"
+wireguard_tcp_port: 8087
+wireguard_udp_port: 51820
+wireguard_gui_admin_username: admin
+wireguard_gui_admin_password: admin

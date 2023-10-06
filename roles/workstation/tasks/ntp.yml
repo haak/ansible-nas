@@ -1,0 +1,15 @@
+---
+# - name: Make sure the NTP service is running
+#   systemd: 
+#     state: started
+#     name: ntpd
+#   become: yes
+#   tags:
+#     - ntp
+
+# - name: Set timezone to Europe/London
+#   timezone:
+#     name: Europe/London
+#   become: yes
+#   tags:
+#     - ntp

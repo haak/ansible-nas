@@ -1,0 +1,32 @@
+# ---
+# - name: Install browsers
+#   pacman:
+#     name: "{{ browsers }}"
+#     state: present
+#   become: yes
+#   tags:
+#     - browsers
+
+# - name: Install tor browser and required dependencies
+#   pacman:
+#     name: "{{ browser_tor }}"
+#     state: present
+#   become: yes
+#   tags:
+#     - browsers
+#     - tor
+
+# - name: Install browsers from Arch User Repository
+#   shell: |
+#     pamac build -d --no-confirm {{ item }} | grep "is up to date"
+#     if [ $? != 0 ]; then
+#       pamac build --no-confirm {{ item }}
+#     fi
+#   with_items: "{{ browsers_aur }}"
+#   register: command_result
+#   failed_when: command_result.rc != 0
+#   changed_when: "'successfully' in command_result.stdout"
+#   become: true
+#   tags:
+#     - browsers
+#     - aur

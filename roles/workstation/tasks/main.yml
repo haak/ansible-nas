@@ -1,0 +1,27 @@
+# Load distro-specific variables
+# - include_vars: "{{ ansible_distribution }}.yml"
+#   tags: always
+
+- block:
+  # - import_tasks: bash.yml
+  # - import_tasks: syncthing.yml
+  - import_tasks: aur.yml
+    when: ansible_facts['distribution'] == "Archlinux"
+  - import_tasks: users.yml
+
+
+
+  - include_tasks: unattended_upgrades.yml
+    when:
+      - ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+      - unattended_upgrades is defined
+      - unattended_upgrades == true
+
+  rescue:
+    - set_fact: task_failed=true
+  tags:
+    - workstation
+  
+# - name: Print all available facts
+#   ansible.builtin.debug:
+#     var: ansible_facts

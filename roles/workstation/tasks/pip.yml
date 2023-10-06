@@ -1,0 +1,9 @@
+---
+- name: "Install pip packages"
+  pip:
+    name: '{{ pip_packages }}'
+    state: present
+  become: yes
+  tags:
+    - base
+    - pip

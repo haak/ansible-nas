@@ -1,0 +1,20 @@
+---
+- name: Install, configure, and start Snap
+  block:
+    - name: Check snapd is installed
+      ansible.builtin.command: snap --version
+      register: snap_installed
+      ignore_errors: true
+
+    - name: Install snapd
+      ansible.builtin.package:
+        name: snapd
+        state: present
+      when: snap_installed.rc != 0
+
+    - name: Install snap packages
+      community.general.snap:
+        name: "{{ snap_packages }}"
+        state: present
+      when: snap_installed.rc == 0
+  when: snap_packages is defined

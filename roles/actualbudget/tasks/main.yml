@@ -1,0 +1,105 @@
+---
+- name: Start Actual
+  block:
+    - name: Create Actual Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ actual_data_directory }}"
+
+    - name: Actual Docker Container
+      docker_container:
+        name: "{{ actual_container_name }}"
+        image: "{{actual_container_image}}"
+        pull: true
+        volumes:
+          - "{{ actual_data_directory }}:/data:rw"
+        ports:
+          - "{{ actual_port }}:5006"
+        restart_policy: unless-stopped
+        memory: "{{ actual_memory }}"
+        labels:
+          traefik.enable: "{{ actual_available_externally | string }}"
+          traefik.http.routers.actual.rule: "Host(`{{ actual_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.actual.tls.certresolver: "letsencrypt"
+          traefik.http.routers.actual.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.actual.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.actual.loadbalancer.server.port: "4040"
+  when: actual_enabled is true
+
+- name: Stop Actual
+  block:
+    - name: Stop Actual
+      docker_container:
+        name: "{{ actual_container_name }}"
+        state: absent
+  when: actual_enabled is false
+# build actual server docker image:
+# - name: build actualserver docker image
+
+# clone git to /tmp
+# - name: clone actualserver git repo
+#   git:
+#     repo: https://github.com/actualbudget/actual-server.git
+#     dest: /tmp/actualserver
+#     version: master
+#     force: yes
+
+# - name: Build image and with build args
+#   community.docker.docker_image:
+#     name: actual-server
+#     build:
+#       path: /tmp/actualserver
+#     source: build
+
+# get image id of actual-server
+# - name: get image id of actual-server
+#   shell: docker images | grep actual-server | awk '{print $3}'
+#   register: image_id
+
+# TODO: extract this backup to another role and let you specify all directories to backup
+#  copy the directory to backup storage directory
+# - name: backup actualserver files
+#   shell: "cp -r {{actualserver_user_data}} {{backup_dir}}/actualserver"
+#   when: actualserver_user_data is defined
+
+# - name: Create actualserver container
+#   docker_container:
+#     name: "{{actualserver_hostname}}"
+#     image: "{{image_id.stdout}}"
+#     user: "{{actualserver_user_id}}:{{actualserver_group_id}}"
+#     pull: true
+#     state: started
+#     volumes:
+#       - "./server-files:/app/server-files"
+#       - "./user-files:/app/user-files"
+#     env:
+#       # PUID: "{{ actualserver_user_id }}"
+#       # PGID: "{{ actualserver_group_id }}"
+#       TZ: "{{ ansible_nas_timezone }}"
+#     ports:
+#       - "5006:{{actualbudget_port}}"
+#     restart_policy: unless-stopped
+
+# - name: Create actualserver container
+#   docker_container:
+#     name: "{{actualserver_hostname}}"
+#     image: "kippenhof/actual-server"
+#     # user: "{{actualserver_user_id}}:{{actualserver_group_id}}"
+#     pull: true
+#     state: started
+#     volumes:
+#       - "{{actualserver_data}}:/app/server-files"
+#       - "{{actualserver_user_data}}:/app/user-files"
+#     env:
+#       # PUID: "{{ actualserver_user_id }}"
+#       # PGID: "{{ actualserver_group_id }}"
+#       TZ: "{{ ansible_nas_timezone }}"
+#     ports:
+#       - "5006:{{actualbudget_port}}"
+#     restart_policy: unless-stopped
+
+# $ docker run --pull=always --restart=unless-stopped -d -p 5006:5006 -v YOUR/PATH/TO/DATA:/data --name my_actual_budget jlongster/actual-server:latest
+
+# jlongster/actual-server

@@ -1,0 +1,25 @@
+---
+- name: Create Filestash Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ Filestash_config_directory }}"
+
+- name: Filestash Docker Container
+  docker_container:
+    name: Filestash
+    image: machines/filestash
+    pull: true
+    # volumes:
+    #   - "{{ Filestash_config_directory }}:/config:rw"
+    #   - "{{ Filestash_movies_directory }}:/movies:{{ Filestash_movies_permissions }}"
+    #   - "{{ Filestash_tv_directory }}:/tv:{{ Filestash_tv_permissions }}"
+    ports:
+      - "8334:8334"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      # PUID: "{{ Filestash_user_id }}"
+      # PGID: "{{ Filestash_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ Filestash_memory }}"

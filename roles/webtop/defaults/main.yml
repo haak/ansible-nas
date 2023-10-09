@@ -1,0 +1,15 @@
+webtop_data_directory: "{{ docker_home }}/webtop"
+# webtop_docker_image: "linuxserver/webtop:arch-i3"
+# webtop_docker_image: "lscr.io/linuxserver/webtop:arch-i3"
+webtop_docker_image: "lscr.io/linuxserver/webtop:arch-kde"
+
+
+
+webtop_environment_variables: []
+webtop_memory: 1g
+webtop_available_externally: "false"
+webtop_hostname: "webtop"
+ansible_nas_domain: "example.com"
+webtop_user_id: 1000
+webtop_group_id: 1000
+webtop_enabled: false

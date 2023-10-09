@@ -1,0 +1,134 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Media:
+    - Jellyfin:
+        href: "http://{{ server_ip }}:{{ jellyfin_port_http }}"
+        ping: "http://{{ server_ip }}:{{ jellyfin_port_http }}"
+        description: Jellyfin media server
+        container: jellyfin
+        icon: jellyfin.png
+
+    - Photoprism:
+        href: "http://{{ server_ip }}:{{ photoprism_port_http }}"
+        ping: "http://{{ server_ip }}:{{ photoprism_port_http }}"
+        description: Photoprism photo management
+        container: photoprism
+        icon: photoprism.png
+    - Immich:
+        href: "http://{{ server_ip }}:{{ immich_port_http }}"
+        ping: "http://{{ server_ip }}:{{ immich_port_http }}"
+        description: Immich photo management
+        container: immich_web
+        icon: immich.png
+    - Qbittorrent:
+        href: "http://{{ server_ip }}:{{ qbittorrent_port }}"
+        ping: "http://{{ server_ip }}:{{ qbittorrent_port }}"
+        description: Qbittorrent media server
+        container: qbittorrent
+        icon: qbittorrent.png
+        widget:
+            type: qbittorrent
+            url: "http://{{ server_ip }}:{{ qbittorrent_port }}"
+            username: admin
+            password: adminadmin
+    - Stash:
+        href: "http://{{ server_ip }}:{{ stash_port }}"
+        ping: "http://{{ server_ip }}:{{ stash_port }}"
+        description: Stash media server
+        container: stash
+        icon: stash.png
+
+    - AudiobookShelf:
+        href: "http://{{ server_ip }}:{{ audiobookshelf_port }}"
+        description: AudiobookShelf media server
+        ping: "http://{{ server_ip }}:{{ audiobookshelf_port }}"
+        container: audiobookshelf
+        icon: audiobookshelf.png
+
+- Media Automation:
+    - Autobrr:
+        href: "http://{{ server_ip }}:{{ autobrr_port }}"
+        description: the modern autodl-irssi replacement
+        container: autobrr
+        icon: autobrr.png
+
+    - Bazarr:
+        href: "http://{{ server_ip }}:{{ bazarr_port }}"
+        description: Subtitle management
+        container: bazarr
+        icon: bazarr.png
+    - Sonarr:
+        href: "http://{{ server_ip }}:{{ sonarr_port }}"
+        description: TV show automation
+        container: sonarr 
+        icon: sonarr.png
+    - Radarr:
+        href: "http://{{ server_ip }}:{{ radarr_port }}"
+        description: movie automation
+        container: radarr
+        icon: radarr.png
+    - Jackett:
+        href: "http://{{ server_ip }}:{{ jackett_port }}"
+        description: Indexer automation
+        container: jackett
+        icon: jackett.png
+    - Syncthing:
+        href: "http://{{ server_ip }}:{{ syncthing_port }}"
+        description: Syncs things
+        icon: syncthing.png
+
+    - Ombi:
+        href: "http://{{ server_ip }}:{{ ombi_port }}"
+        description: Ombi media automation
+        container: ombi
+        icon: ombi.png
+    - Prowlarr:
+        href: "http://{{ server_ip }}:{{ prowlarr_port }}"
+        description: Prowlarr media automation
+        container: prowlarr
+        icon: prowlarr.png
+    - Deemix:
+        href: "http://{{ server_ip }}:{{ deemix_port_http }}"
+        description: Deemix media automation
+        container: deemix
+        icon: deemix.png
+
+    
+- Server Management:
+    - Portainer:
+        href: "http://{{ server_ip }}:{{ portainer_port }}"
+        description: Portainer server management
+        container: portainer
+        icon: portainer.png
+        widget:
+            type: portainer
+            url: "http://{{ server_ip }}:{{ portainer_port }}"
+            env: 2
+            key: ptr_WqVVAuZX/YPzYJ46R7lGdk4OHIr86BciZ8cqH9YAFpQ=
+
+    - Dozzle:
+        href: "http://{{ server_ip }}:{{ dozzle_port_http }}"
+        description: Dozzle server management
+        container: dozzle
+        icon: dozzle.png
+
+    - Proxmox:
+        href: "http://{{ server_ip }}:{{ proxmox_port }}"
+        description: Proxmox server management
+        icon: proxmox.png
+    - cockpit:
+        href: "http://{{ server_ip }}:{{ cockpit_port }}"
+        description: cockpit server management
+        icon: cockpit.png
+    
+    
+
+- Finances:
+    - ActualBudget:
+        href: "http://{{ server_ip }}:{{ actualbudget_port }}"
+        description: ActualBudget financial management
+        container: actualbudget
+        # TODO: Add icon
+

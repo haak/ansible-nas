@@ -1,0 +1,16 @@
+# Path: roles/scratchmap/defaults/main.yml
+- name: scratchmap
+  docker_container:
+    name: scratchmap
+    image: ad3m3r5/scratch-map:latest
+    pull: true
+    user: 1000:1000
+    volumes:
+      - "{{ scratchmap_data_directory }}:/data"
+    ports:
+      - "{{ scratchmap_port }}:8080"
+    env:
+      PORT: "{{ scratchmap_port }}"
+      DBLOCATION: "/data"
+    restart_policy: unless-stopped
+    state: started

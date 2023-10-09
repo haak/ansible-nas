@@ -1,0 +1,31 @@
+
+
+
+# sudo pacman -S linux-headers
+
+# OR sudo pacman -S linux-lts-headers
+
+# sudo pacman -S virtualbox virtualbox-guest-iso
+
+# You will be asked for installing the core-packages:
+
+    # for linux kernel choose virtualbox-host-modules-arch
+    # for other kernels (like LTS) choose virtualbox-host-dkms
+
+
+
+# sudo pacman -S net-tools
+
+# optional
+# sudo pacman -S virtualbox-ext-vnc
+
+# sudo modprobe vboxdrv
+
+# sudo gpasswd -a username vboxusers
+
+# optional yay -S virtualbox-ext-oracle
+
+# File --> Preferences --> Extensions
+# enable extension
+
+# vagrant autocomplete install

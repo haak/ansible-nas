@@ -1,0 +1,133 @@
+---
+# tasks file for roles/gnome
+
+# check gnome is installed on arch:
+- name: check gnome is installed on arch
+  pacman:
+    name: gnome
+    state: present
+  become: true
+  # become_user: "{{ ansible_user }}"
+  when: ansible_distribution == "Archlinux"
+  register: gnome_installed 
+
+# check gnome is installed on debian:
+- name: check gnome is installed on debian
+  apt:
+    name: gnome
+    state: present
+  become: true
+  become_user: "{{ ansible_user }}"
+  when: ansible_distribution == "Debian"
+  register: gnome_installed
+
+# set caps lock to be esc instead
+#TODO: find out how to do this programmatically.
+
+
+# swap alt tab and alt windows key
+# - name: swap alt tab and alt windows key
+#   shell: gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
+#   when: gnome_installed is changed
+# TODO: above does not work
+
+
+# set wallpapers on arch for both light and dark mode:
+# - name: set wallpapers on arch for both light and dark mode
+#   copy:
+#     src: "{{ item }}"
+#     dest: "/usr/share/backgrounds/{{ item }}"
+#     owner: root
+#     group: root
+#     mode: 0644
+#   with_items:
+#     - "gnome_wallpaper_light.png"
+#     - "gnome_wallpaper_dark.png"
+#   when: ansible_distribution == "Archlinux"
+
+- name: install python3-psutil
+  pacman:
+    name: python-psutil
+    state: present
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+
+
+- name: run the gnome customization role
+  include_role:
+    name: petermosmans.customize-gnome
+  vars:
+    # gnome_dconf:
+    #   - key: /org/gnome/desktop/background/show-desktop-icons
+    #     value: "false"
+    #   - key: /org/gnome/desktop/wm/keybindings/switch-windows
+    #     value: "['<Alt>Tab']"
+    #   - key: /org/gnome/desktop/wm/keybindings/switch-windows-backward
+    #     value: "['<Shift><Alt>Tab']"
+    gnome_extensions:
+      # - url: https://extensions.gnome.org/download-extension/hidetopbar@mathieu.bidon.ca.shell-extension.zip?version_tag=6450
+      #   name: hidetopbar@mathieu.bidon.ca
+      - id: 517
+      - id: 1160
+      - id: 4099
+      - id: 750
+      - id: 3628
+      - id: 3193
+      - id: 4679
+      #   url: https://example.com/gnome-extension/1160.zip
+      # - id: 1236
+      #   name: CustomNamedExtension
+      # - id: 1267
+      #   name: CustomNamedExtension2
+      #   url: https://example.com/gnome-extension/1267.zip
+      # - id: 1112
+        # enable: yes
+    # gnome_files:
+    #   - src: gtk.css
+    #     dest: "/home/{{ gnome_user }}/.config/{{ gtk_version }}/gtk.css"
+    # gnome_fonts:
+    #   - url: https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip
+    #     name: SourceCodePro
+    #     fonts: "source-code-pro-2.030R-ro-1.050R-it/OTF/*.otf"
+    # gnome_gsettings:
+    #   - schema: org.gnome.desktop.interface
+    #     key: monospace-font-name
+    #     value: '"Source Code Pro Medium 16"'
+    #   - schema: org.gnome.shell.extensions.dash-to-panel
+    #     schemadir: ~/.local/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
+    #     key: panel-position
+    #     value: TOP
+    # gnome_packages:
+    #   - fonts-roboto
+    gnome_user: "{{ ansible_gnome_user}}"
+    gtk_version: 4.0
+  when: customise_gnome
+
+
+# set keyboard shortcut alt tab to be swap windows
+# /org/gnome/desktop/wm/keybindings/switch-windows
+# ['<Alt>Tab']
+
+
+# org.gnome.desktop.wm.keybindings switch-windows-backward ['<Shift><Alt>Tab']
+# ['<Shift><Alt>Tab']
+
+
+
+
+
+# install gnome extensions
+# https://extensions.gnome.org/extension/5177/vertical-workspaces/
+# https://extensions.gnome.org/extension/4033/x11-gestures/
+# https://extensions.gnome.org/extension/4748/toggle-imwheel/
+# https://extensions.gnome.org/extension/5112/tailscale-status/
+# https://extensions.gnome.org/extension/906/sound-output-device-chooser/
+# https://extensions.gnome.org/extension/2983/ip-finder/
+# https://extensions.gnome.org/extension/1319/gsconnect/
+# https://extensions.gnome.org/extension/4158/gnome-40-ui-improvements/
+# https://extensions.gnome.org/extension/1160/dash-to-panel/
+# https://extensions.gnome.org/extension/3628/arcmenu/
+# https://extensions.gnome.org/extension/615/appindicator-support/
+
+

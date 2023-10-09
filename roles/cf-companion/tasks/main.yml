@@ -1,0 +1,30 @@
+---
+- name: Create cf_companion container
+  docker_container:
+    name: cf_companion
+    image: tiredofit/traefik-cloudflare-companion:latest
+    # pull: true
+    # volumes:
+    #   # - "{{ cf_companion_data_directory }}/cf_companion:/data:rw"
+    #   - /var/run/docker.sock:/var/run/docker.sock:ro
+    # # ports:
+    # #   - "{{ cf_companion_port_http }}:3000"
+    # env:
+    #   CF_EMAIL: "{{cf_companion_email}}" # Same as traefik
+    #   # - CF_TOKEN=$CLOUDFLARE_API_TOKEN # Scoped api token not working. Error 10000.
+    #   CF_TOKEN: "{{ cf_companion_api_key }}"  # Same as traefik
+
+    #   TARGET_DOMAIN: "{{ cf_companion_domain_name }}"
+    #   DOMAIN1: "{{ cf_companion_domain_name }}"
+    #   DOMAIN1_ZONE_ID: "{{cf_companion_zoneid}}" # Copy from Cloudflare Overview page
+    #   DOMAIN1_PROXIED: TRUE
+
+    # restart_policy: unless-stopped
+    # memory: "{{ cf_companion_memory }}"
+    # labels:
+    #   traefik.enable: "{{ cf_companion_available_externally }}"
+    #   traefik.http.routers.cf_companion.rule: "Host(`{{ cf_companion_hostname }}.{{ ansible_nas_domain }}`)"
+    #   traefik.http.routers.cf_companion.tls.certresolver: "letsencrypt"
+    #   traefik.http.routers.cf_companion.tls.domains[0].main: "{{ ansible_nas_domain }}"
+    #   traefik.http.routers.cf_companion.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+    #   traefik.http.services.cf_companion.loadbalancer.server.port: "3000"

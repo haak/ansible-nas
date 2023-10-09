@@ -1,0 +1,6 @@
+# when beancount_docker_enabled is false and beancount_pkg_enabled is true, install beancount from package
+
+- name: install beancount from aur
+  ansible.builtin.package:
+    name: beancount
+    state: present

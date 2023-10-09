@@ -1,0 +1,16 @@
+
+- name: ansible setup | ensure ansible is the latest version
+  tags: ansible,ansible-setup
+  package:
+    name: ansible
+    state: latest
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: ansible setup | install required packages
+  tags: ansible,ansible-setup,packages
+  package:
+    name:
+      - "{{ dconf_package }}"
+      - "{{ python_psutil_package }}"
+    state: present
+  when: ansible_distribution in ["Debian", "Ubuntu"]

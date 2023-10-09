@@ -1,0 +1,56 @@
+---
+# - name: Create photoprism Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: "{{ansible_nas_user}}"
+#     group: "{{ansible_nas_user}}"
+#   with_items:
+#     - "{{ photoprism_data_directory }}/storage"
+#     - "{{ photoprism_data_directory }}/pictures"
+
+- name: Create photoprism container
+  docker_container:
+    name: photoprism
+    image: "{{ photoprism_docker_image }}"
+    pull: true
+    volumes:
+      - "{{photos_root}}:/photoprism/originals"
+      # Permanent storage for settings, index & sidecar files (DON'T REMOVE):
+      - "{{photoprism_data_directory}}/storage:/photoprism/storage"
+    env:
+      PUID: "{{ photoprism_user_id }}"
+      PGID: "{{ photoprism_group_id }}"
+      TZ: "{{ ansible_nas_timezone }}"
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
+      PHOTOPRISM_ORIGINALS_LIMIT: "{{ photoprism_originals_limit }}"
+      PHOTOPRISM_HTTP_COMPRESSION: "{{ photoprism_http_compression }}"
+      PHOTOPRISM_DEBUG: "{{ photoprism_debug }}"          # Run in debug mode (shows additional log messages)
+      PHOTOPRISM_PUBLIC: "{{ photoprism_public }}"          # No authentication required (disables password protection)
+      PHOTOPRISM_READONLY: "{{ photoprism_readonly }}"          # Don't modify originals directory (reduced functionality)
+      PHOTOPRISM_EXPERIMENTAL: "{{ photoprism_experimental }}"          # Enables experimental features
+      PHOTOPRISM_DISABLE_WEBDAV: "{{ photoprism_disable_webdav }}"          # Disables built-in WebDAV server
+      PHOTOPRISM_DISABLE_SETTINGS: "{{ photoprism_disable_settings }}"          # Disables Settings in Web UI
+      PHOTOPRISM_DISABLE_TENSORFLOW: "{{ photoprism_disable_tensorflow }}"       # Disables using TensorFlow for image classification
+      PHOTOPRISM_DARKTABLE_PRESETS: "{{ photoprism_darktable_presets }}"      # Enables Darktable presets and disables concurrent RAW conversion
+      PHOTOPRISM_DETECT_NSFW: "{{ photoprism_detect_nsfw }}"       # Flag photos as private that MAY be offensive (requires TensorFlow)
+      PHOTOPRISM_UPLOAD_NSFW: "{{ photoprism_upload_nsfw }}"      # Allow uploads that MAY be offensive
+      # PHOTOPRISM_DATABASE_DRIVER: "{{ photoprism_database_driver }}"     # SQLite is an embedded database that doesn't require a server
+      # PHOTOPRISM_DATABASE_DRIVER: # Use MariaDB (or MySQL) instead of SQLite for improved performance
+      # PHOTOPRISM_DATABASE_SERVER:  "{{ photoprism_database_server }}"    # MariaDB database server (hostname:port)
+      # PHOTOPRISM_DATABASE_NAME: "{{ photoprism_database_name }}"      # MariaDB database schema name
+      # PHOTOPRISM_DATABASE_USER:  "{{ photoprism_database_user }}"     # MariaDB database user name
+      # PHOTOPRISM_DATABASE_PASSWORD:   "{{ photoprism_database_password }}"    # MariaDB database user password
+      PHOTOPRISM_SITE_URL: "{{ photoprism_site_url }}" # Public PhotoPrism URL
+      PHOTOPRISM_SITE_TITLE: "{{ photoprism_site_title }}"
+      PHOTOPRISM_SITE_CAPTION:  "{{ photoprism_site_caption }}"
+      PHOTOPRISM_SITE_DESCRIPTION: "{{ photoprism_site_description }}"
+      PHOTOPRISM_SITE_AUTHOR: "{{ photoprism_site_author }}"
+    security_opts:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - "{{ photoprism_port_http }}:2342"
+      # - "{{ photoprism_port_https }}:443"
+    restart_policy: unless-stopped
+

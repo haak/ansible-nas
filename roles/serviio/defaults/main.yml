@@ -1,0 +1,8 @@
+media_root: "{{ samba_shares_root }}/downloads/media/"
+serviio_state: started
+serviio_enabled: false
+
+serviio_config_directory: "{{ docker_home }}/serviio/config"
+serviio_library_directory: "{{ docker_home }}/serviio/library"
+serviio_plugins_directory: "{{ docker_home }}/serviio/plugins"
+serviio_log_directoy: "{{ docker_home }}/serviio/log"

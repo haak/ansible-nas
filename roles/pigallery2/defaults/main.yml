@@ -1,0 +1,10 @@
+pigallery2_config: "{{docker_home}}/pigallery/config"
+pigallery2_db: "{{docker_home}}/pigallery/db"
+# pigallery2_images: "{{docker_home}}/pigallery/images"
+# pigallery2_images: "{{photo_library}}"
+pigallery2_images: "{{samba_shares_root}}/photos"
+
+pigallery2_tmp:  "{{docker_home}}/pigallery/tmp"
+# pigallery2_memory: 1gb
+pigallery2_port: 8043
+pigallery2_enabled: false

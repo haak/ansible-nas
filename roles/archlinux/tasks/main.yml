@@ -1,0 +1,53 @@
+---
+# - name: Run the equivalent of "pacman -Syu" as a separate step
+#   community.general.pacman:
+#     update_cache: yes
+#     upgrade: yes
+
+- name: Create the `aur_builder` user
+  become: true
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: true
+    group: wheel
+
+- name: Allow the `aur_builder` user to run `sudo pacman` without a password
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-install-aur_builder
+    line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    create: true
+    validate: "visudo -cf %s"
+
+- name: Install package yay from repo
+  community.general.pacman:
+    name: yay
+    state: present
+
+# Install package from the AUR
+# - name: Install package aur-foo
+#   pacaur:
+#     name: "{{ aur_packages }}"
+#     state: present
+#   become: yes
+#   become_user: "{{user_name}}"
+
+- name: installing aur packages
+  kewlfft.aur.aur:
+    name: "{{ aur_packages }}"
+    use: yay
+    state: present
+  become: true
+  become_user: aur_builder
+# - name: Install package from AUR using a Pacman compatible AUR helper
+#   community.general.pacman:
+#     name: foo
+#     state: present
+#     executable: yay
+#     extra_args: --builddir /var/cache/yay
+
+# - kewlfft.aur.aur:
+#     upgrade: yes
+#     use: yay
+#   become: yes
+#   become_user: "{{user_name}}"

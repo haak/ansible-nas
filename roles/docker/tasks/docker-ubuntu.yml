@@ -1,0 +1,44 @@
+# do the same as arch but for ubuntu/debian
+
+# install docker via apt
+- name: install docker package via apt 
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+  become: yes
+  when: ansible_os_family == "Debian"
+
+# create docker group
+- name: create docker group
+  group:
+    name: docker
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: add specified user to docker group
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: yes
+  become: yes
+  when: ansible_os_family == "Debian" 
+
+# sudo systemctl enable docker.service
+# sudo systemctl start docker.service
+
+- name: enable docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: install python3-docker package via apt 
+  apt:
+    name: python3-docker
+    state: present
+    update_cache: yes
+  become: yes
+  when: ansible_os_family == "Debian"

@@ -1,0 +1,16 @@
+---
+# defaults file for roles/bookstack
+bookstack_docker_image: "lscr.io/linuxserver/bookstack:latest"
+bookstack_data_directory: "{{ docker_home }}/bookstack"
+bookstack_port_http: 3001
+bookstack_db_name: "bookstackapp"
+bookstack_db_user: "bookstack"
+bookstack_db_password: "bookstack"
+bookstack_db_host: "bookstack_db"
+bookstack_db_port: 5432
+bookstack_db_type: "pgsql"
+bookstack_db_prefix: ""
+bookstack_db_sslmode: "prefer"
+bookstack_db_sslrootcert: ""
+bookstack_db_sslcert: ""
+bookstack_enabled : false

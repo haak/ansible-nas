@@ -1,0 +1,16 @@
+- name: Create readarr container
+  docker_container:
+    name: readarr
+    image: lscr.io/linuxserver/readarr
+    state: "{{readarr_state}}"
+    volumes:
+      - "{{ readarr_config_directory }}/app/config:/config"
+      - "{{ books_directory }}:/books"
+      - "{{ downloads_directory }}:/downloads"
+    ports:
+      - "{{ readarr_port }}:8787"
+    env:
+      PUID: 1000
+      PGID: 1000
+      TZ: "Europe/London"
+    restart_policy: unless-stopped

@@ -1,0 +1,4 @@
+uptime_kuma_data_directory: "{{ docker_home}}/uptime_kuma"
+uptime_kuma_memory: 1g
+
+uptime_kuma_port: 9876

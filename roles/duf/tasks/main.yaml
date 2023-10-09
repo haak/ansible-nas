@@ -1,0 +1,27 @@
+---
+# - name: Create duf Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   with_items:
+#     - "{{ duf_config_directory }}"
+
+- name: duf Docker Container
+  docker_container:
+    name: duf
+    image: docker.io/sigoden/duf
+    command: "{{ duf_command }} {{ duf_username}}:{{ duf_password }} {{ duf_folder }}"
+    pull: true
+    volumes:
+      - "/tmp:/tmp"
+      # - "{{ duf_config_directory }}:/config:rw"
+    ports:
+      - "{{ duf_port_http }}:5000"
+      # - 5000:5007
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ duf_user_id }}"
+      PGID: "{{ duf_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ duf_memory }}"
+

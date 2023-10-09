@@ -1,0 +1,59 @@
+---
+# - name: Homer - Change state to true
+#   when: homer_enabled
+#   set_fact:
+#     homer_state: started
+
+# - name: Homer - Change state to false
+#   when: not homer_enabled
+#   set_fact:
+#     homer_state: absent
+
+- name: create Homer folder
+  file:
+    path: "{{ homer_data_directory }}"
+    state: directory
+    owner: alex
+    group: alex
+  
+- name: Create an internal network
+  community.docker.docker_network:
+    name: nginx_proxy_manager_nw
+    internal: yes
+
+- name: Create an internal network
+  community.docker.docker_network:
+    name: homer_nw
+    driver: bridge
+
+
+- name: get local 192 ip
+  shell: ip addr | grep ens | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
+  register: local_ip
+
+- name: Template homer homer.j2
+  template:
+    src: homer.j2
+    dest: "{{ homer_data_directory }}/config.yml"
+    owner: alex
+    group: alex
+    mode: 0777
+
+- name: Create Homer container
+  docker_container:
+    name: homer
+    image: "{{ homer_docker_image }}"
+    pull: true
+    state: started
+    volumes:
+      - "{{ homer_data_directory }}:/www/assets"
+    env:
+      # PUID: "{{ user_id }}"
+      # PGID: "{{ group_id }}"
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "{{ homer_host_port }}:{{ homer_container_port }}"
+    restart_policy: unless-stopped
+    networks:
+      - name: "nginx_proxy_manager_nw"
+      - name: "homer_nw"

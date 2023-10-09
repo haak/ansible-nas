@@ -1,0 +1,33 @@
+---
+# External Access
+# pihole will allow access to certain applications externally. To enable this you'll either; a domain name that points to your
+# home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
+# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
+# settings.
+pihole_enabled: false
+
+# directories
+pihole_data_directory: "{{ docker_home }}/pihole"
+
+# network
+pihole_port_http: "80"
+pihole_port_https: "443"
+pihole_port_ui: "8078"
+
+pihole_docker_image: pihole/pihole:latest
+pihole_log_level: "INFO"
+
+# find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
+pihole_dns_provider: cloudflare
+pihole_environment_variables:
+  TZ: 'Europe/Dublin'
+  # WEBPASSWORD: 'set a secure password here or it will be random'
+
+# Ansible-NAS requests a wildcard certificate for your domain, so there should be no reason to have to use the staging
+# letsencrypt acme server. If you do want to flip between staging/production, you might need to stop pihole and clear
+# the "{{ docker_home }}/pihole" after changing this setting.
+# pihole_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory" # staging
+pihole_acme_server: "https://acme-v02.api.letsencrypt.org/directory" # production
+
+# specs
+pihole_memory: 1g

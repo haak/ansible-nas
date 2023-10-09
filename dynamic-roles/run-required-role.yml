@@ -1,0 +1,14 @@
+# this should be called run-required-role.yml
+---
+- name: 'Run required role: {{ required_role_item }}'
+  ansible.builtin.include_role:
+    name: '{{ required_role_item }}'
+    apply:
+      tags:
+        # Apply the role's tag to all tasks in this role so they all run
+        - '{{ required_role_item }}'
+  # Only run this role if the role's tag is present (or no tags are present)
+  tags:
+    - '{{ required_role_item }}'
+    # A role-partial will activate the role, but other tags are required to choose the tasks in the role
+    - '{{ required_role_item }}-partial'

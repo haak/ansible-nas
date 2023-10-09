@@ -1,0 +1,78 @@
+---
+# tasks file for roles/tmux
+
+# check tmux is installed
+- name: Check tmux is installed
+  command: which tmux
+  register: tmux_installed
+  changed_when: false
+  failed_when: false
+
+- name: Install tmux
+  package:
+    name: tmux
+    state: present
+  become: true
+  when: tmux_installed.rc != 0
+
+- name: Create tmux config directory
+  file:
+    path: "{{ tmux_config_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: Create tmux config file
+  template:
+    src: tmux.conf.j2
+    dest: "/{{ user_home}}/.tmux.conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+
+- name: Create tmux plugins directory
+  file:
+    path: "{{ tmux_plugins_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+# $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+- name: Clone tmux plugin manager
+  git:
+    repo: "https://github.com/tmux-plugins/tpm"
+    dest: "{{ tmux_plugins_dir }}/tpm"
+    version: master
+    force: yes
+    update: yes
+    accept_hostkey: yes
+    depth: 1
+
+# start tmux server and detach
+- name: Start tmux server
+  command: tmux new-session -d
+  when: tmux_installed.rc == 0
+
+- name: Reload tmux config
+  command: tmux source-file ~/.tmux.conf
+  when: tmux_installed.rc == 0
+
+- name: Install tmux plugins
+  command: "{{ tmux_plugins_dir }}/tpm/bin/install_plugins"
+  when: tmux_installed.rc == 0
+
+- name: kill most recent tmux server
+  command: tmux kill-server
+  when: tmux_installed.rc == 0
+
+# this task will remove tmux folder and unlink any linked config files
+- name: cleanup tmux
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ user_home }}/.tmux"
+    - "{{ user_home }}/.tmux.conf"
+  when: tmux_cleanup

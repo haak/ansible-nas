@@ -1,0 +1,11 @@
+---
+
+# include archlinux tasks
+- name: Include archlinux tasks
+  include_tasks: archlinux.yml
+  when: ansible_os_family == 'Archlinux'
+
+# include debian tasks
+- name: Include debian tasks
+  include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'

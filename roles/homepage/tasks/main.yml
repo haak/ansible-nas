@@ -1,0 +1,60 @@
+---
+- name: Start Homepage
+  block:
+    - name: Create Homepage Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ homepage_data_directory }}"
+
+    - name: Homepage Docker Container
+      docker_container:
+        name: "{{ homepage_container_name }}"
+        image: ghcr.io/benphelps/homepage:latest
+        pull: true
+        volumes:
+          - "{{ homepage_data_directory }}:/app/config:rw"
+          - "/var/run/docker.sock:/var/run/docker.sock:rw"
+        ports:
+          - "{{ homepage_port }}:3000"
+        restart_policy: unless-stopped
+        memory: "{{ homepage_memory }}"
+        # labels:
+        #   traefik.enable: "{{ homepage_available_externally | string }}"
+        #   traefik.http.routers.homepage.rule: "Host(`{{ homepage_hostname }}.{{ ansible_nas_domain }}`)"
+        #   traefik.http.routers.homepage.tls.certresolver: "letsencrypt"
+        #   traefik.http.routers.homepage.tls.domains[0].main: "{{ ansible_nas_domain }}"
+        #   traefik.http.routers.homepage.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+        #   traefik.http.services.homepage.loadbalancer.server.port: "4040"
+    
+    # - name: get local 192 ip for qbittorent address
+    #   shell: "ip addr show  | grep '192' | awk '{print $2}' | cut -d/ -f1"
+    #   register: local_server_ip
+
+
+    - name: template services.yaml
+      template:
+        src: "{{item.src}}"
+        dest: "{{item.dest}}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0644
+      with_items:
+        - { src: 'templates/bookmarks.yaml.j2', dest: '{{homepage_data_directory}}/bookmarks.yaml' }
+        - { src: 'templates/services.yaml.j2', dest: '{{homepage_data_directory}}/services.yaml' }
+        - { src: 'templates/docker.yaml.j2', dest: '{{homepage_data_directory}}/docker.yaml' }
+        - { src: 'templates/settings.yaml.j2', dest: '{{homepage_data_directory}}/settings.yaml' }
+        - { src: 'templates/widgets.yaml.j2', dest: '{{homepage_data_directory}}/widgets.yaml' }
+      notify: 
+        - restart homepage
+  when: homepage_enabled is true
+
+
+- name: Stop Homepage
+  block:
+    - name: Stop Homepage
+      docker_container:
+        name: "{{ homepage_container_name }}"
+        state: absent
+  when: homepage_enabled is false

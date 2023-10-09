@@ -1,0 +1,68 @@
+---
+- name: Install python3-pip
+  apt:
+    name: python3-pip
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Remove docker-py python module
+  pip:
+    name: docker-py
+    state: absent
+  register: result
+  until: result is succeeded
+
+- name: Install docker python module
+  pip:
+    name: docker
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Create Docker home directory
+  file:
+    path: "{{ docker_home }}"
+    mode: 0755
+    state: directory
+
+# - name: Add user account to Docker group
+#   user:
+#     name: "{{ ansible_nas_user }}"
+#     groups: docker
+#     append: yes
+# TODO: fix
+
+
+- name: make alex own all files in samba shares
+  file:
+    path: "{{ item }}"
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+  loop:
+    - "{{ movies_root }}"
+    - "{{tv_root}}"
+    - "{{music_root}}"
+    # - "{{photos_root}}"
+    # - "{{documents_root}}"
+    - "{{downloads_root}}"
+    # - "{{videos_root}}"
+    # - "{{games_root}}"
+    # - "{{books_root}}"
+
+
+
+# - name: run docker system prune -f
+#   command: docker system prune -f
+
+
+# - name: create directory if they don't exist
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: root
+#     group: root
+#     mode: 0775
+#   loop:
+#     - /data/directory
+#     - /data/another

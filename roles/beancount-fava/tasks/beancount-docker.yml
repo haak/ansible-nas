@@ -1,0 +1,15 @@
+---
+- name: fava Docker Container
+  docker_container:
+    name: fava
+    image: yegle/fava
+    user: "1000:1000"
+    pull: true
+    restart_policy: unless-stopped
+    state: started
+    volumes:
+      - "{{ beancount_fava_config_directory }}:/bean:rw"
+    env:
+      BEANCOUNT_FILE: "/bean/accounts.beancount"
+    ports:
+      - "{{ beancount_port_http }}:5000"

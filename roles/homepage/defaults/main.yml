@@ -1,0 +1,69 @@
+---
+homepage_enabled: false
+homepage_available_externally: false
+
+# directories
+homepage_data_directory: "{{ docker_home }}/homepage"
+
+# network
+homepage_port: "10001"
+homepage_hostname: "homepage"
+
+# specs
+homepage_memory: 1g
+
+# docker
+homepage_container_name: homepage
+
+
+deemix_port_http: 6595
+stash_port: 9998
+server_ip: 100.78.22.119
+pihole_ip: 192.168.177.64
+jellyfin_port_http: 8896
+jellyfin_port_https: 8928
+emby_port_http: 8099
+plex_port_http: 32400
+photoprism_port_http: 10083
+photoprism_port_https: 10447
+photoview_port_http: 8785
+
+
+audiobookshelf_port: 8065
+radarr_port: 7878
+sonarr_port : 8989
+wireguard_qbittorrent_port : 6881
+firefly_port : 8066
+jackett_port: 9117
+prowlarr_port: 9696
+bazarr_port: 6767
+ombi_port: 3579
+
+n8n_port: 5678
+linx_port_http: 8080
+gitea_port_http: 3000
+portainer_port: 9000
+dozzle_port_http: 9999
+wireguard_tcp_port: 8087
+glances_port_one: 61208
+syncthing_port : 8384
+traefik_port_ui: 8078
+proxmox_port: 8006
+vscode_server_port: 8443
+guacamole_port_http: 8080
+uptime_kuma_port: 9876
+paperless_ng_port: 8000
+
+immich_port_http: 2283
+
+
+budge_port_http: 8091
+beancount_port_http: 5000
+firefly_3_port: 9233
+firefly_3_importer_port: 9234
+
+openbudgeteer_port: 6100
+actualbudget_port: 5006
+autobrr_port: 7474
+
+cockpit_port: 9090

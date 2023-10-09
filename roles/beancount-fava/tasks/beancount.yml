@@ -1,0 +1,23 @@
+# TODO: fix beancount
+
+# - name: Create .beancount folder in home directory
+#   file:
+#     path: "{HOME}/.beancount"
+#     state: directory
+#     owner: "${ansible_nas_user}"
+#     group: "${ansible_nas_user}"
+#     mode: "0700"
+
+# - name: Create accounts.beancount file in home directory
+#   file:
+#     path: "{HOME}/.beancount/accounts.beancount"
+#     state: file
+#     owner: "{ansible_nas_user}"
+#     group: "{ansible_nas_user}"
+#     mode: "0600"
+# # export this info to syncthing file that says what should be enabled in syncthing
+
+---
+- name: Print debug message
+  debug:
+    msg: Hello, world!

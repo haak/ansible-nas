@@ -1,0 +1,12 @@
+---
+# tasks file for roles/tailscale
+
+
+# include tasks for ubuntu
+- include_tasks: tailscale-debian.yml
+  when: ansible_os_family == "Debian"
+
+
+# include tasks for arch
+- include_tasks: tailscale-arch.yml
+  when: ansible_os_family == "Archlinux"

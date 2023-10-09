@@ -1,0 +1,15 @@
+---
+- name: Create jellyseer container
+  docker_container:
+    name: "{{jellyseer_hostname}}"
+    image: "{{ jellyseer_docker_image }}"
+    pull: true
+    # user: "{{ jellyseer_user_id }}:{{ jellyseer_group_id }}"
+    volumes:
+      - "{{jellyseer_data_directory}}/cache:/app/config"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      LOG_LEVEL: "{{ jellyseer_log_level }}"
+    ports:
+      - "{{ jellyseer_port_http }}:5055"
+    restart_policy: unless-stopped

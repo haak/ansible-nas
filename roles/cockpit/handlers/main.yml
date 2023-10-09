@@ -1,0 +1,9 @@
+---
+  - name: Ensure cockpit is running
+    ansible.builtin.service:
+      name: cockpit.socket
+      state: started
+  - name: Restart cockpit
+    ansible.builtin.service:
+      name: cockpit.socket
+      state: restarted

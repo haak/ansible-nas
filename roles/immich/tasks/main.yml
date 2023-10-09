@@ -1,0 +1,39 @@
+---
+block: 
+- name: set docker-compose
+  template:
+    src: docker-compose.yml.j2
+    dest: ./configurations/target/docker-compose.yml
+- name: template .env file
+  template:
+    src: .env.j2
+    dest: ./configurations/target/.env
+
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: ./configurations/target/
+    files:
+    - docker-compose.yml
+    - .env
+  register: output
+
+# - name: Run with inline Compose file version 1
+#   # https://docs.docker.com/compose/compose-file/compose-file-v1/
+#   hosts: localhost
+#   gather_facts: false
+#   tasks:
+#     - name: Remove flask project
+#       community.docker.docker_compose:
+#         project_src: flask
+#         state: absent
+
+# - name: Show results
+#       ansible.builtin.debug:
+#         var: output
+
+#     - name: Verify that the db and web services are running
+#       ansible.builtin.assert:
+#         that:
+#           - "output.services.web.flask_web_1.state.running"
+#           - "output.services.db.flask_db_1.state.running"

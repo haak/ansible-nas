@@ -1,0 +1,6 @@
+---
+- name: install syncthing on debian/ ubuntu
+  apt:
+    name: syncthing
+    state: present
+    update_cache: yes

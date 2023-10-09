@@ -1,0 +1,41 @@
+---
+
+- name: Create nginx_proxy_manager Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nginx_proxy_manager_data_directory }}"
+
+- name: Create an internal network
+  community.docker.docker_network:
+    name: nginx_proxy_manager_nw
+    driver: bridge
+    internal: yes
+
+- name: Create an internal network
+  community.docker.docker_network:
+    name: nginx_proxy_manager_nw1
+    internal: no
+    
+
+- name: nginx_proxy_manager
+  docker_container:
+    name: nginx_proxy_manager
+    image: jc21/nginx-proxy-manager:latest
+    pull: true
+    volumes:
+      - "{{ nginx_proxy_manager_data_directory }}:/data"
+      - "{{ nginx_proxy_manager_letsencrypt }}:/etc/letsencrypt"
+    ports:
+      - "{{ nginx_proxy_manager_port1 }}:80"
+      - "{{ nginx_proxy_manager_port2 }}:81"
+      - "{{ nginx_proxy_manager_port3 }}:443"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ nginx_proxy_manager_user_id }}"
+      PGID: "{{ nginx_proxy_manager_group_id }}"
+    restart_policy: unless-stopped
+    networks:
+      - name: "nginx_proxy_manager_nw"
+      - name: "nginx_proxy_manager_nw1"

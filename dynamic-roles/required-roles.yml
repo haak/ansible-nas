@@ -1,0 +1,10 @@
+---
+# Iterate over the `required_roles` array of role names and run each one.
+- name: Run required roles
+  include_tasks: ./run-required-role.yml
+  loop: '{{ required_roles }}'
+  loop_control:
+    loop_var: required_role_item
+  when: required_roles is defined
+  tags:
+    - always

@@ -1,0 +1,2 @@
+scratchmap_data_directory: "{{ docker_home }}/scratchmap"
+scratchmap_port: "9877"

@@ -1,0 +1,20 @@
+---
+# defaults file for roles/taskwarrior
+taskd_server: ""
+taskd_key: ""
+taskd_ca: ""
+taskd_certificate: ""
+taskd_credentials: ""
+
+wingtask_config: ""
+
+wingtask_config_link: ""
+
+taskwarrior_config_dir: "{{user_home}}/config/task/"
+
+
+tw_gkeep_sync_dir: "{{user_home}}/.taskwarrior_gkeep_sync"
+tw_gcal_sync_dir: "{{user_home}}/.taskwarrior_gcal_sync"
+
+taskwarrior_gkeep_username: ""
+taskwarrior_gkeep_password: ""

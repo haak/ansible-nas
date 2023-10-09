@@ -1,0 +1,52 @@
+---
+# - name: Create linx group
+#   group:
+#     name: linx
+#     gid: "{{ linx_group_id }}"
+#     state: present
+
+# - name: Create linx user
+#   user:
+#     name: linx
+#     uid: "{{ linx_user_id }}"
+#     state: present
+#     system: yes
+#     update_password: on_create
+#     create_home: no
+#     group: linx
+
+# - name: Create linx Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: linx
+#     group: linx
+#   with_items:
+#     - "{{ linx_data_directory }}"
+
+- name: Create linx container
+  docker_container:
+    name: linx
+    image: "{{ linx_docker_image }}"
+    pull: true
+    volumes:
+      # - "{{ linx_data_directory }}:/config:rw"
+      # - "/home/alex/Docker/homeserver/linx/linx:/www/assets:rw"
+      # - "{{ linx_data_directory }}/linx:/www/assets:rw"
+    env:
+      # PUID: "{{ linx_user_id }}"
+      # PGID: "{{ linx_group_id }}"
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "{{ linx_port_http }}:8080"
+      # - "8081:8080"
+      # - "{{ linx_port_https }}:443"
+    restart_policy: unless-stopped
+    memory: "{{ linx_memory }}"
+    labels:
+      traefik.enable: "{{ linx_available_externally }}"
+      traefik.http.routers.linx.rule: "Host(`{{ linx_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.linx.tls.certresolver: "letsencrypt"
+      traefik.http.routers.linx.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.linx.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.linx.loadbalancer.server.port: "80"

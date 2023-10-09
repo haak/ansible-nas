@@ -1,0 +1,4 @@
+openbudgeteer_enabled: false
+openbudgeteer_state: started # present or absent
+openbudgeteer_data_directory: "{{docker_home}}/openbudgeteer"
+openbudgeteer_port: "6100"

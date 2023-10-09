@@ -1,0 +1,12 @@
+vscode_server_enabled: false
+ansible_nas_timezone: "Europe/Dublin"
+vscode_server_code_directory: "{{ user_home }}/Documents/projects"
+vscode_server_data_directory: "{{ docker_home }}/vscode-server"
+vscode_server_group_id: "1000"
+vscode_server_hostname: "vscode_server"
+vscode_server_memory: 1g
+vscode_server_port: "6761"
+vscode_server_user_id: "1000"
+
+vscode_password: password
+vscode_sudo_password: password

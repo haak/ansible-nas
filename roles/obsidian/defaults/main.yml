@@ -1,0 +1,4 @@
+obsidian_vaults_directory: "/home/alex/ObsidianFolder"
+obsidian_config_directory: "{{ docker_home }}/obsidian"
+obsidian_port: "9766"
+Obsidian_username: "alex"

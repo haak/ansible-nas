@@ -1,0 +1,6 @@
+---
+- include_tasks: client.yml
+  when: enable_ssh_client == true
+- include_tasks: server.yml
+  when: enable_ssh_server == true
+

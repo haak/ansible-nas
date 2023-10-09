@@ -1,0 +1,24 @@
+---
+- name: Create openbooks Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  with_items:
+    - "{{ openbooks_data_directory }}/config"
+
+
+- name: Create openbooks container
+  docker_container:
+    name: openbooks
+    image: evanbuss/openbooks
+    pull: true
+    state: "{{openbooks_state}}"
+    volumes:
+      - "{{ openbooks_data_directory }}/config/:/books:rw"
+    ports:
+      - "{{ openbooks_port }}:80"
+    command: "{{openbooks_command}}"
+    restart_policy: unless-stopped
+
+

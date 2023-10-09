@@ -1,0 +1,6 @@
+- name: installing Kopia aur
+  kewlfft.aur.aur:
+    name: "{{kopia_aur_package}}"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"

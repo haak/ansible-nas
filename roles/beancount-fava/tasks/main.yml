@@ -1,0 +1,8 @@
+- import_tasks: beancount.yml
+
+- import_tasks: beancount-docker.yml
+  when: beancount_docker_enabled
+
+- import_tasks: beancount-pkg.yml
+  when: beancount_pkg_enabled
+

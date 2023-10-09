@@ -1,0 +1,19 @@
+---
+# defaults file for roles/jellyseer
+jellyseer_available_externally: "false"
+jellyseer_enabled: false
+# directories
+jellyseer_docker_image: "fallenbagel/jellyseerr"
+jellyseer_data_directory: "{{ docker_home }}/jellyseer"
+jellyseer_hostname: jellyseer
+# uid / gid
+# jellyseer_user_id: "1312"
+# jellyseer_group_id: "1312"
+jellyseer_user_id: "1000"
+jellyseer_group_id: "1000"
+# specs
+jellyseer_memory: 1g
+jellyseer_port_http: "5055"
+nas_services_user_id: "1000"
+nas_services_group_id: "1000"
+jellyseer_log_level: "debug"

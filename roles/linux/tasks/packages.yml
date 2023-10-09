@@ -1,0 +1,17 @@
+---
+- name: Install a list of packages
+  apt:
+    pkg:
+    - exa
+    - zsh
+    - autojump
+    - openssh
+    - git
+    - curl
+    - wget
+    - vim
+    - tmux
+    - htop
+    - tree
+    - jq
+    state: latest

@@ -1,0 +1,8 @@
+# include ubuntu task
+- name: include tasks for ubuntu cockpit
+  include_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: include tasks for ArchLinux
+  include_tasks: archlinux.yml
+  when: ansible_os_family == "ArchLinux"

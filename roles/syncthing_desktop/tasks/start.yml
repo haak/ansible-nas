@@ -1,0 +1,6 @@
+# TODO: need to install another type of package in this file
+
+---
+- name: Print debug message
+  debug:
+    msg: Hello, world!

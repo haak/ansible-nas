@@ -1,0 +1,4 @@
+---
+# defaults file for soulseek
+soulseek_port: 6080
+soulseek_memory: 1g

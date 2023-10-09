@@ -1,0 +1,59 @@
+---
+# tasks file for roles/vim
+
+# check vim  is installed
+# check neovim is installed
+# symlink vimrc to ~/.vimrc
+# symlink vimrc to ~/.config/nvim/init.vim
+# install vim-plug
+# install vim plugins
+
+
+# install vim with gneric package manager
+- name: install vim
+  package:
+    name: vim
+    state: present
+  
+# install neovim with gneric package manager
+- name: install neovim
+  package:
+    name: neovim
+    state: present
+
+- name: check vim is installed
+  command: vim --version
+  register: vim_installed
+  ignore_errors: yes
+
+- name: check neovim is installed
+  command: nvim --version
+  register: neovim_installed
+  ignore_errors: yes
+
+- name: symlink vimrc to ~/.vimrc
+  file:
+    src: "{{ role_path }}/files/.vimrc"
+    dest: "/home/alex/.vimrc"
+    state: link
+
+- name: symlink init.vim to ~/.config/nvim/init.vim
+  file:
+    src: "{{ role_path }}/files/init.vim"
+    dest: "/home/alex/.config/nvim/init.vim"
+    state: link
+
+# - name: install vim-plug
+#   get_url:
+#     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+#     dest: "/home/alex/.vim/autoload/plug.vim"
+#     mode: 0755
+
+- name: Install vim-plug
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "/home/alex//plug.vim"
+    mode: 0755
+
+- name: install vim plugins
+  command: vim +PlugInstall +qall

@@ -1,0 +1,6 @@
+readarr_state: started
+readarr_config_directory: "{{ docker_home }}/readarr/config"
+readarr_metadata_directory: "{{ docker_home }}/readarr/metadata"
+podcasts_directory: "{{ docker_home }}/readarr/podcasts"
+audiobooks_directory: "{{ docker_home }}/readarr/audiobooks"
+readarr_port: "8787"

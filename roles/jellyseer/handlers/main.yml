@@ -1,0 +1,18 @@
+---
+# handlers file for roles/jellyseer
+
+# restart jellyseer container
+- name: restart jellyseer container
+  docker_container:
+    name: jellyseer
+    state: restarted
+    restart_policy: unless-stopped
+    restart_retries: 3
+    restart_delay: 5
+  when: jellyseer_restart_container
+
+- name: remove jellyseer container
+  docker_container:
+    name: "{{ jellyseer_container_name }}"
+    state: absent
+  when: jellyseer_remove_container

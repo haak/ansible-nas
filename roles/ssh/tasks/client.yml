@@ -1,0 +1,45 @@
+---
+- name: Set permissions 700 on .ssh folder
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh/"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0700
+  become: yes
+
+- name : Set permissions 600 on .ssh/*
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh/*"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0600
+    recurse: yes
+  become: yes
+
+- name: Set permissions 644 on other files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+  with_fileglob:
+    - "/home/{{ansible_user}}/.ssh/*.pub"
+    - "/home/{{ansible_user}}/.ssh/known_hosts"
+    - "/home/{{ansible_user}}/.ssh/authorized_keys"
+  become: yes
+
+
+# TODO: setup config to access all machines with ssh
+# TODO: link with tmux to add all devices to config
+# TODO: generate ssh key for each host (only one for work)
+
+# chmod 700 /home/$USER/.ssh
+# chmod 600 /home/$USER/.ssh/*
+# chmod 600 /home/$USER/.ssh/config
+# chmod 600 /home/$USER/.ssh/*.pem
+# chmod 600 /home/$USER/.ssh/*.key
+# chmod 644 /home/$USER/.ssh/authorized_keys
+# chmod 644 /home/$USER/.ssh/known_hosts
+# chmod 644 /home/$USER/.ssh/*.pub
+
+

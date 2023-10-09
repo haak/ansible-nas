@@ -1,0 +1,8 @@
+---
+
+- name: Restart a container
+  docker_container:
+    name: qbittorrent
+    # image: someuser/appimage
+    state: started
+    restart: yes

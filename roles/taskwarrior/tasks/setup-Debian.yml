@@ -1,0 +1,4 @@
+- name: install taskwarrior via ansible package
+  ansible.builtin.package:
+    name: "taskwarrior"
+    state: present

@@ -1,0 +1,60 @@
+---
+# tasks file for roles/taskwarrior
+
+# on ubuntu install taskwarrior via apt
+# on manjaro install via pacman
+# install taskwarrior tui
+# setup web sync to wingtask
+# setup crontab to sync every 5 mins
+# on gnome install gnome extension
+# make scripts run on crontab also only in 1 location.
+
+# enable sync to google keep , with different tags
+# sync shopping list tag to shopping list list
+
+#
+
+# include tasks for each OS
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == "Debian"
+
+- include_tasks: setup-Arch.yml
+  when: ansible_os_family == "Archlinux"
+
+
+# create taskwarrior config directory
+- name: create taskwarrior config directory
+  ansible.builtin.file:
+    path: "{{taskwarrior_config_dir}}"
+    state: directory
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+    mode: '0755'
+
+- name: Symlink .taskrc
+  file:
+    src: "{{dotfiles_location}}.taskrc"
+    dest: "{{user_home}}/.taskrc"
+    state: link
+    force: yes
+
+# import wingtask setup
+- include_tasks: wingtask.yml
+  when: wingtask_config is defined
+
+- name: Ensure a job that runs every 5 minutes syncs to wingtask"
+  ansible.builtin.cron:
+    name: "taskwarrior sync"
+    minute: "*/5"
+    job: "task sync"
+
+# import google keep setup
+- include_tasks: taskwarrior-gkeep.yml
+  when: gkeep_config is defined
+
+
+# - name: Enable a timer unit for dnf-automatic
+#   ansible.builtin.systemd:
+#     name: dnf-automatic.timer
+#     state: started
+#     enabled: yes

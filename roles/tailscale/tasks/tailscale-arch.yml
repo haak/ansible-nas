@@ -1,0 +1,21 @@
+# install tailscale on arch
+- name: install tailscale package via pacman
+  pacman:
+    name: tailscale
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Archlinux"
+
+# enable tailscale service
+- name: enable tailscale service
+  service:
+    name: tailscaled
+    enabled: yes
+    state: started
+  when: ansible_os_family == "Archlinux"
+
+# run the command tailscale up if tailscale key is defined
+- name: run tailscale up
+  command: tailscale up --authkey={{ tailscale_key }}
+  when: tailscale_key is defined
+

@@ -1,0 +1,5 @@
+- name: Install Kopia with Chocolately on Windows.
+  win_chocolatey:
+    name: "{{kopia_package_windows}}"
+    ignore_checksums: true
+    state: present

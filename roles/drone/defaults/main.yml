@@ -1,0 +1,26 @@
+# #############
+# ### drone ###
+# #############
+
+# drone_available_externally: "false"
+
+# # directories
+# drone_config_directory: "{{ docker_home }}/drone/config"
+# drone_movies_directory: "{{ movies_root }}"
+# drone_tv_directory: "{{ tv_root }}"
+
+# # If you're paranoid, set permissions to "ro" so drone won't ever be able to
+# # delete your files
+# drone_movies_permissions: "rw"
+# drone_tv_permissions: "rw"
+
+# # uid / gid
+# drone_user_id: "0"
+# drone_group_id: "0"
+
+# # network
+# drone_port_http: "8096"
+# drone_hostname: "drone"
+
+# # specs
+# drone_memory: 1g

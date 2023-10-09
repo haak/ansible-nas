@@ -1,0 +1,18 @@
+---
+# handlers file for roles/photoview
+
+# restart photoview container
+- name: restart photoview container
+  docker_container:
+    name: photoview
+    state: restarted
+    restart_policy: unless-stopped
+    restart_retries: 3
+    restart_delay: 5
+  when: photoview_restart_container
+
+- name: remove photoview container
+  docker_container:
+    name: "{{ photoview_container_name }}"
+    state: absent
+  when: photoview_remove_container

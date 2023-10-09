@@ -1,0 +1,11 @@
+# install python docker page on ubuntu only
+
+
+
+
+# include arch docker when archlinux
+- include_tasks: docker-arch.yml
+  when: ansible_os_family == "Archlinux"
+
+- include_tasks: docker-ubuntu.yml
+  when: ansible_os_family == "Debian"

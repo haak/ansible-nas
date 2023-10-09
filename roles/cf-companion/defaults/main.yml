@@ -1,0 +1,8 @@
+cf_companion_enabled: False
+
+cf_companion_memory: 1g
+cf_companion_mysql_memory: 1g
+cf_companion_email: "{{ansible_nas_email}}"
+cf_companion_api_key: "{{cloudflare_token}}"
+cf_companion_zoneid: "{{cloudflare_zoneid}}"
+cf_companion_domain_name: "{{ansible_nas_domain}}"

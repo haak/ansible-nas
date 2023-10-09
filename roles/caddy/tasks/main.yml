@@ -1,0 +1,55 @@
+---
+- name: Create caddy Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ caddy_data_directory }}"
+
+- name: Create a network
+  community.docker.docker_network:
+    name: caddy
+  tags:
+    - caddy
+
+- name: caddy Docker Container
+  docker_container:
+    name: caddy
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    pull: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "{{ docker_home}}/caddy/etc/caddy:/etc/caddy/"
+      - "{{ docker_home}}/caddy/site:/srv"
+      - "{{ docker_home}}/caddy/data:/data"
+      - "{{ docker_home}}/caddy/config:/config"
+    restart_policy: unless-stopped
+    state: started
+    networks:
+      - name: "caddy"
+    env:
+      CADDY_INGRESS_NETWORKS: caddy-ingress
+      PUID: "{{docker_user_id}}"
+      PGID: "{{docker_group_id}}"
+  tags:
+    - caddy
+
+- name: whoami Docker Container
+  docker_container:
+    name: whoami
+    image: jwilder/whoami
+    pull: true
+    restart_policy: unless-stopped
+    state: started
+    networks:
+      - name: "caddy"
+    env:
+      CADDY_INGRESS_NETWORKS: caddy-ingress
+      PUID: "{{docker_user_id}}"
+      PGID: "{{docker_group_id}}"
+    labels:
+      caddy: whoami.web.haak.pw
+      caddy.reverse_proxy: "{{upstreams 8000}}"

@@ -1,0 +1,39 @@
+
+
+
+# docker run -v /tmp:/tmp -p 5000:5000 --rm -it docker.io/sigoden/duf /tmp
+
+
+### duf ###
+duf_enabled: false
+duf_available_externally: "false"
+
+# directories
+duf_config_directory: "{{ docker_home }}/duf/config"
+duf_movies_directory: "{{ movies_root }}"
+duf_tv_directory: "{{ tv_root }}"
+
+
+# If you're paranoid, set permissions to "ro" so duf won't ever be able to
+# delete your files
+duf_movies_permissions: "rw"
+duf_tv_permissions: "rw"
+
+# uid / gid
+duf_user_id: "0"
+duf_group_id: "0"
+
+# network
+duf_port_http: "8093"
+duf_hostname: "duf"
+
+# specs
+duf_memory: 1g
+
+duf_username: user
+duf_password: password
+
+
+duf_folder: /tmp
+
+duf_command: "--allow-all --auth"

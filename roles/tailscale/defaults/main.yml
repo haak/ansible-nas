@@ -1,0 +1,3 @@
+---
+# defaults file for roles/tailscale
+auth_key: "YOUR_AUTH_KEY"

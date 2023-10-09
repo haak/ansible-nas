@@ -1,0 +1,35 @@
+---
+# tasks file for roles/bookstack
+
+- name: Create bookstack db 
+  docker_container:
+    name: bookstack_db
+    image: "postgres:latest"
+    pull: true
+    state: started
+    privileged : true
+    volumes:
+      - "/var/lib/postgresql/data"
+    env:
+      POSTGRES_PASSWORD: "{{ bookstack_db_password }}"
+      POSTGRES_USER: "{{ bookstack_db_user }}"
+      POSTGRES_DB: "{{ bookstack_db_name }}"
+    restart_policy: unless-stopped
+
+- name: create bookstack container
+  docker_container:
+    name: bookstack
+    image: "{{ bookstack_docker_image }}"
+    pull: true
+    state: started
+    privileged : true
+    volumes:
+      - "{{ bookstack_data_directory }}:/var/www/html/public/uploads"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "{{ bookstack_port_http }}:3001"
+      # - 6875:80
+    restart_policy: unless-stopped
+  when: bookstack_enabled is defined and bookstack_enabled
+

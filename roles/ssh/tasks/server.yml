@@ -1,0 +1,70 @@
+---
+# enable sshd
+- name: enable sshd
+  ansible.builtin.systemd:
+    name: sshd.service
+    state: started
+    enabled: yes
+  become: yes
+
+# disable password ssh for root:
+- name: disable password ssh for root
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
+  notify: Restart sshd
+  become: yes
+
+# disable root login
+- name: disable root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
+  notify: Restart sshd
+  become: yes
+
+# disable password base login ssh
+- name: disable password base login ssh
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+  notify: Restart sshd
+  become: yes
+
+# add ansible_user to allow ssh
+- name: add ansible_user to allow ssh
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^AllowUsers"
+    line: "AllowUsers {{ ansible_user }}"
+    state: present
+  notify: Restart sshd
+  become: yes
+
+# disable empty passwords:
+- name: disable empty passwords
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitEmptyPasswords"
+    line: "PermitEmptyPasswords no"
+    state: present
+  notify: Restart sshd
+  become: yes
+
+#TODO: curl key from github and add to authorized keys, ensure no duplicates
+
+# - name: curl public key from github and ensure it is in authorized_keys
+
+
+# - add key to authorized_keys
+#   authorized_key:
+#     user: "{{ ansible_user }}"
+#     key: "{{ lookup('file', 'id_rsa.pub') }}"
+#     state: present
+

@@ -1,0 +1,57 @@
+---
+- name: export VERSION_CODENAME from /etc/os-release
+  shell: ". /etc/os-release && echo $VERSION_CODENAME"
+  register: version_codename
+
+- name: Update the repository cache and update package "nginx" to latest version using default release squeeze-backport
+  ansible.builtin.apt:
+    name: cockpit
+    state: latest
+    default_release: "{{version_codename.stdout}}-backports"
+    update_cache: yes
+
+
+
+- name: install cockpit-podman
+  ansible.builtin.package:
+    name: cockpit-podman
+    state: present
+
+- name: install cockpit-identities
+  ansible.builtin.package:
+    name: cockpit-identities
+    state: present
+
+- name: install cockpit-navigator
+  ansible.builtin.package:
+    name: cockpit-navigator
+    state: present
+  notify: Restart cockpit
+
+# - name: run bash script to install cockpit-file-sharing
+#   ansible.builtin.shell: curl -sSL https://repo.45drives.com/setup | sudo bash
+#   # become: true
+
+# - name: Download and install 45drives repo
+#   ansible.builtin.get_url:
+#     url: https://repo.45drives.com/setup
+#     dest: /tmp/45drives.sh
+
+# - name: Run install script
+#   ansible.builtin.shell:
+#     cmd: cat /tmp/45drives.sh | bash -s
+#   ignore_errors : true
+
+# - name: Install a .deb package from the internet
+#   ansible.builtin.apt:
+#     deb: https://github.com/45Drives/cockpit-file-sharing/releases/download/v3.2.8/cockpit-file-sharing_3.2.8-1focal_all.deb
+  
+
+# - name: install packages cockpit-file-sharing
+#   ansible.builtin.package:
+#     name: cockpit-file-sharing
+#     state: present
+
+# - name: Install the cockpit-identities .deb package from 45 drives url
+#   ansible.builtin.apt:
+#     deb: https://github.com/45Drives/cockpit-identities/releases/download/v0.1.10/cockpit-identities_0.1.10-1focal_all.deb

@@ -1,0 +1,26 @@
+---
+- name: Create vscode directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ vscode_server_data_directory }}"
+    - "{{ vscode_server_code_directory }}"
+
+- name: code-server
+  docker_container:
+    name: code-server
+    image: linuxserver/code-server
+    pull: true
+    volumes:
+      - "{{ vscode_server_data_directory }}:/config:rw"
+      - "{{ vscode_server_code_directory }}:/data:rw"
+    ports:
+      - "{{ vscode_server_port }}:8443"
+    env:
+      PASSWORD: "{{ vscode_password }}" #optional
+      SUDO_PASSWORD: "{{ vscode_sudo_password }}" #optional
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ vscode_server_user_id }}"
+      PGID: "{{ vscode_server_group_id }}"
+    restart_policy: unless-stopped

@@ -1,0 +1,52 @@
+---
+- name: create photoview folder and database file
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ photoview_user_id }}"
+    group: "{{ photoview_group_id }}"
+    mode: 0755
+  with_items:
+    - "{{photoview_data_directory}}/database"
+
+
+- name: create database container
+  docker_container:
+    name: photoview_database
+    image: "mariadb:10.5"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      MYSQL_DATABASE: "photoview"
+      MYSQL_USER: "photoview"
+      MYSQL_PASSWORD: "photosecret"
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - "{{photoview_data_directory}}/database:/var/lib/mysql"
+    ports:
+      - 3306:3306
+
+
+- name: Create photoview container
+  docker_container:
+    name: "{{photoview_hostname}}"
+    image: "{{ photoview_docker_image }}"
+    pull: true
+    volumes:
+      - "{{photoview_data_directory}}/cache:/app/cache"
+      - "{{photoview_data_directory}}/database:/var/lib/mysql"
+      - "{{photos_root}}:/photos"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      # PHOTOVIEW_DATABASE_DRIVER: "sqlite"
+      # PHOTOVIEW_SQLITE_PATH: "/var/lib/mysql/photoview.db"
+      PHOTOVIEW_MEDIA_CACHE: "/app/cache"
+      PHOTOVIEW_DISABLE_VIDEO_ENCODING: "1"
+      PHOTOVIEW_DATABASE_DRIVER: "mysql"
+      PHOTOVIEW_MYSQL_URL: "photoview:photosecret@tcp(192.168.177.78:3306)/photoview"
+      MAPBOX_TOKEN: "{{ mapbox_token }}"
+    ports:
+      - "{{ photoview_port_http }}:80"
+    restart_policy: unless-stopped
+
+
+  

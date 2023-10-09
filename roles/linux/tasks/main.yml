@@ -1,0 +1,32 @@
+---
+- include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
+- block:
+    - import_tasks: ansible.yml
+    - import_tasks: alex.yml
+    - import_tasks: root.yml
+    - import_tasks: ssh.yml
+    # - import_tasks: tmux.yml
+    - import_tasks: packages.yml
+      when:
+      - ansible_hostname == "ubuntu"
+    - import_tasks: syncthing.yml
+      when:
+      - ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+      - ansible_hostname == "ubuntu"
+    
+    # - import_tasks: kopia.yml
+    #   when:
+    #   - ansible_hostname == "ubuntu"
+
+
+  rescue:
+    - set_fact: task_failed=true
+# TODO: install ansible
+# TODO: add user setup
+# TODO: vpn setup including tailscale
+# TODO: programming langs, rust go , zim , python
+# TODO: set a nice hosts file
+
+

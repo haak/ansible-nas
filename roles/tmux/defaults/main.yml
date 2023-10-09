@@ -1,0 +1,4 @@
+tmux_config_dir: "{{ user_home }}/.tmux"
+tmux_plugins_dir: "{{ tmux_config_dir }}/plugins"
+tmux_enabled: false
+tmux_cleanup: false

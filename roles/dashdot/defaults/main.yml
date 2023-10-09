@@ -1,0 +1,5 @@
+dashdot_docker_image: mauricenino/dashdot:latest
+dashdot_port_http: 3001
+dashdot_data_directory: "{{ docker_home }}/dashdot"
+dashdot_environment_variables: []
+dashdot_enabled: false

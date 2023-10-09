@@ -1,0 +1,25 @@
+---
+# - name: Create budge Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   with_items:
+#     - "{{ budge_config_directory }}"
+
+- name: budge Docker Container
+  docker_container:
+    name: "{{budge_hostname}}"
+    image: lscr.io/linuxserver/budge
+    pull: true
+    volumes:
+      - "{{ budge_config_directory }}:/config:rw"
+      # - "/tmp:/tmp"
+    ports:
+      - "{{budge_port_http}}:80"
+      - "{{budge_port_https}}:443"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ budge_user_id }}"
+      PGID: "{{ budge_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ budge_memory }}"

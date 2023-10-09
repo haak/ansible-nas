@@ -1,0 +1,39 @@
+---
+# - name: Create deemix Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   with_items:
+#     - "{{ deemix_config_directory }}"
+
+- name: deemix Docker Container
+  docker_container:
+    name: "{{ deemix_container_name }}"
+    image: registry.gitlab.com/bockiii/deemix-docker
+    pull: true
+    container_default_behavior: compatibility
+    volumes:
+      - "{{music_directory}}:/downloads"
+      - "{{deemix_config}}:/config"
+    ports:
+      - "{{ deemix_port_http }}:6595"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ deemix_user_id }}"
+      PGID: "{{ deemix_group_id }}"
+      ARL: "1234567"
+      UMASK_SET: "022"
+      DEEZUI: "false"
+    restart_policy: unless-stopped
+    memory: "{{ deemix_memory }}"
+  when: deemix_enabled is true
+
+# when: gitea_enabled is true
+
+
+- name: Stop Deemix
+  docker_container:
+    name: "{{ deemix_container_name }}"
+    state: absent
+  when: deemix_remove is true and deemix_enabled is false
+

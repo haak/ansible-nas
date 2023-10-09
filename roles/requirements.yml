@@ -1,0 +1,34 @@
+---
+- name: geerlingguy.docker
+- name: geerlingguy.pip
+- name: geerlingguy.nfs
+# - name: geerlingguy.github-users
+- name: geerlingguy.dotfiles
+- name: geerlingguy.firewall
+- name: geerlingguy.security
+- name: geerlingguy.ntp
+- name: geerlingguy.go
+- name: geerlingguy.git
+- name: geerlingguy.ansible
+- name: geerlingguy.samba
+
+- name: petermosmans.customize-gnome
+
+
+- name: nginxinc.nginx
+
+- name: hurricanehrndz.rustup
+
+- name: bertvv.samba
+  src: git+https://github.com/exptom/ansible-role-samba.git
+  version: feature/disable_perms
+
+# - name: community.general.pacman
+
+- name: artis3n.tailscale
+
+## this is somehow different and should be changed
+# - name: kewlfft.aur
+
+
+- name: gantsign.oh-my-zsh

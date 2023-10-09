@@ -1,0 +1,38 @@
+---
+# - name: Create Obsidian Directories
+#   file:
+#     path: "{{ obsidian_config_directory }}"
+#     state: directory
+
+- name: Obsidian Docker Container
+  docker_container:
+    name: Obsidian
+    image: ghcr.io/sytone/obsidian-remote:latest
+    pull: true
+    volumes:
+      - "{{ obsidian_vaults_directory }}:/vaults:rw"
+      - "{{ obsidian_config_directory }}:/config:rw"
+    ports:
+      - "{{ obsidian_port }}:8080"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      # PUID: "{{ Obsidian_user_id }}"
+      # PGID: "{{ Obsidian_group_id }}"
+      user: "{{ Obsidian_username }}"
+    restart_policy: unless-stopped
+    # memory: "{{ Obsidian_memory }}"
+    # labels:
+    #   traefik.enable: "{{ ombi_available_externally }}"
+    #   traefik.http.routers.ombi.rule: "Host(`{{ ombi_hostname }}.{{ ansible_nas_domain }}`)"
+    #   traefik.http.routers.ombi.tls.certresolver: "letsencrypt"
+    #   traefik.http.routers.ombi.tls.domains[0].main: "{{ ansible_nas_domain }}"
+    #   traefik.http.routers.ombi.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+    #   traefik.http.services.ombi.loadbalancer.server.port: "3579"
+
+
+
+# docker run --rm -it `
+#   -v D:/ob/vaults:/vaults `
+#   -v D:/ob/config:/config `
+#   -p 8080:8080 `
+#   

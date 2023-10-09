@@ -1,0 +1,48 @@
+---
+- name: Change state to true
+  when: stash_enabled
+  set_fact:
+    stash_state: started
+
+- name: Change state to false
+  when: not stash_enabled
+  set_fact:
+    stash_state: absent
+
+
+- name: stash Docker Container
+  docker_container:
+    name: stash
+    image: stashapp/stash:latest
+    pull: true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      ## Adjust below paths (the left part) to your liking.
+      ## E.g. you can change ./config:/root/.stash to ./stash:/root/.stash
+
+      ## Keep configs here.
+      - "{{ stash_config_directory }}:/root/.stash"
+
+      ## Point this at your collection.
+      # - "{{ stash_downloads }}:/data"
+      - "{{ stash_data }}:/data"
+
+      ## This is where your stash's metadata lives
+      - "{{ stash_metadata}}:/metadata"
+      ## Any other cache content.
+      - "{{ stash_cache }}:/cache"
+      ## Where to store generated content (screenshots,previews,transcodes,sprites)
+      - "{{ stash_generated }}:/generated"
+
+    ports:
+      - "{{ stash_port }}:9999"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      # UID: "{{ stash_user_id }}"
+      # GID: "{{ stash_group_id }}"
+      STASH_STASH: /data/
+      STASH_GENERATED: /generated/
+      STASH_METADATA: /metadata/
+      STASH_CACHE: /cache/
+    restart_policy: unless-stopped
+    memory: "{{ stash_memory }}"

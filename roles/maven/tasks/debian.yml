@@ -1,0 +1,10 @@
+---
+# install maven from apt
+- name: Install maven from apt
+  apt:
+    name: maven
+    state: present
+  become: true
+  become_user: root
+  become_method: sudo
+  when: ansible_os_family == 'Debian'

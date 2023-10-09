@@ -1,0 +1,50 @@
+# install docker on archlinux 
+
+- name: install docker package via pacman
+  pacman:
+    name: docker
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Archlinux"
+
+# create docker group
+- name: create docker group
+  group:
+    name: docker
+    state: present
+  when: ansible_os_family == "Archlinux"
+
+- name: add docker_user to docker group
+
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: yes
+  when: ansible_os_family == "Archlinux"
+
+# sudo systemctl enable docker.service
+# sudo systemctl enable containerd.service
+# sudo systemctl start docker.service
+# sudo systemctl start containerd.service
+
+- name: enable docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  when: ansible_os_family == "Archlinux"
+
+- name: enable containerd service
+  service:
+    name: containerd
+    enabled: yes
+    state: started
+  when: ansible_os_family == "Archlinux"
+
+- name: install python-docker package via pacman
+  pacman:
+    name: python-docker
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Archlinux"
+

@@ -1,0 +1,12 @@
+#################
+### Dozzle ###
+#################
+
+dozzle_available_externally: "false"
+
+# network
+dozzle_port_http: "9999"
+dozzle_hostname: "dozzle"
+
+# specs
+dozzle_memory: 1g

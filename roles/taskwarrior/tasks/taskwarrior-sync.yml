@@ -1,0 +1,114 @@
+---
+# install google keep taskwarrior sync
+# https://github.com/bergercookie/taskwarrior-syncall
+
+# check python3 is installed
+- name: check python3 is installed
+  command: python3 --version
+  register: python3_version
+  ignore_errors: true
+
+# install python3 if not installed
+- name: install python3
+  apt: name = python3 state = present
+  when: python3_version.rc != 0 and ansible_os_family == "Debian"
+
+# install python3 archlinux
+- name: install python3 archlinux
+  pacman: name = python3 state = present
+  when: ansible_os_family == "Archlinux"
+
+# install pip3
+- name: install pip3
+  apt: name = python3-pip state = present
+  when: ansible_os_family == "Debian"
+
+- name: install pip3 arch
+  pacman:
+    name: python-pip
+    state: present
+  when: ansible_os_family == "Archlinux"
+
+- name: install taskwarrior google keep sync
+  ansible.builtin.pip:
+    name: "taskwarrior-syncall[google,gkeep]"
+
+- name: create .taskwarrior_gkeep_sync directory
+  ansible.builtin.file:
+    path: "{{ tw_gkeep_sync_dir }}"
+    state: directory
+    owner: "{{ ansible_nas_user }}"
+    group: "{{ ansible_nas_user }}"
+    mode: 0755
+
+- name: put script.sh there
+  ansible.builtin.copy:
+    src: "script.sh"
+    dest: "{{tw_sync_dir}}/script.sh"
+    owner: "{{ ansible_nas_user }}"
+    group: "{{ ansible_nas_user }}"
+    mode: 0755
+
+# create .env file with vars from inventory
+- name: create .env file
+  template:
+    src: .env.j2
+    dest: "{{tw_sync_dir}}/.taskwarrior_gkeep_env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0600
+
+# create a cronjob to run the sync every 5 mins
+- name: create a cronjob to run the sync every 5 mins
+  cron:
+    name: "taskwarrior sync"
+    minute: "*/10 * * * *"
+    job: "cd {{tw_sync_dir}} && source .env && ./script.sh"
+    user: "{{ ansible_user_id }}"
+    state: present
+
+
+# crontab to check for tasks due today and add today tag
+# check for all tasks that are tagged today but not due today and remove today tag
+# check for all tasks and due tomorrow and dont have tag tomorrow add it
+# check for all tasks that are tagged tomorrow but not due tomorrow and remove tomorrow tag
+
+
+- name: put twtoday.sh there
+  ansible.builtin.copy:
+    src: "twtoday.sh"
+    dest: "{{tw_sync_dir}}/twtoday.sh"
+    owner: "{{ ansible_nas_user }}"
+    group: "{{ ansible_nas_user }}"
+    mode: 0755
+
+# create a cronjob to run the sync every 5 mins
+- name: create a cronjob to run the sync every 5 mins
+  cron:
+    name: "taskwarrior sync"
+    minute: "*/10 * * * *"
+    job: "cd {{tw_sync_dir}} && ./twtoday.sh"
+    user: "{{ ansible_user_id }}"
+    state: present
+
+
+
+# # create tw gcal sync dir
+# - name: create tw gcal sync dir
+#   ansible.builtin.file:
+#     path: "{{ tw_gcal_sync_dir }}"
+#     state: directory
+#     owner: "{{ ansible_user_id }}"
+#     group: "{{ ansible_user_id }}"
+#     mode: 0755
+
+# # TODO: user should put client_secret.json in this directory
+
+# # create a cronjob to run the sync every 5 mins
+# - name: create a cronjob to run the sync every 5 mins
+#   cron:
+#     name: "taskwarrior sync"
+#     minute: "*/10 * * * *"
+#     job: "cd {{tw_gcal_sync_dir}} && source .env && ./script.sh"
+#     user: "{{ ansible_user_id }}"
+#     state: present

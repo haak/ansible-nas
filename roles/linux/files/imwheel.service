@@ -1,0 +1,9 @@
+[Unit]
+Description=Enable imwheel
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "imwheel -b 45"
+
+[Install]
+WantedBy=multi-user.target

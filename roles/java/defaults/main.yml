@@ -1,0 +1,5 @@
+java_aur_packages:
+  - jre8-openjdk
+  - jre-openjdk
+  - jdk8-openjdk
+  - jdk-openjdk

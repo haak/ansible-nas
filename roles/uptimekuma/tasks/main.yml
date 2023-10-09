@@ -1,0 +1,21 @@
+---
+
+- name: Create uptime_kuma Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ uptime_kuma_data_directory }}"
+
+
+- name: uptime_kuma Docker Container
+  docker_container:
+    name: uptime_kuma
+    image: "louislam/uptime-kuma:1"
+    pull: true
+    ports:
+      - "{{uptime_kuma_port:}}:3001/tcp"
+    volumes:
+      - "{{ uptime_kuma_data_directory }}/app/data:/app/data"
+    restart_policy: unless-stopped
+    memory: "{{ uptime_kuma_memory }}"

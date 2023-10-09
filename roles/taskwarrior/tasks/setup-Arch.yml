@@ -1,0 +1,35 @@
+# install task command via package manager
+
+- name: install taskwarrior via ansible package
+  ansible.builtin.package:
+    name: "task"
+    state: present
+
+
+- name: install taskwarrior tui via ansible package
+  ansible.builtin.package:
+    name: "taskwarrior-tui"
+    state: present
+
+# - name: 
+#   ansible.builtin.package:
+#     name: "taskopen"
+#     state: present
+
+
+- name: install taskopen via ansible package
+  kewlfft.aur.aur:
+    name: "taskopen"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"
+
+
+# template taskrc file
+- name: template taskrc file
+  ansible.builtin.template:
+    src: .taskrc.j2
+    dest: ~/.taskrc
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644

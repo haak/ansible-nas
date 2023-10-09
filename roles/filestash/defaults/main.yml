@@ -1,0 +1,25 @@
+### Filestash ###
+Filestash_enabled: false
+Filestash_available_externally: "false"
+
+# directories
+Filestash_config_directory: "{{ docker_home }}/Filestash/config"
+Filestash_movies_directory: "{{ movies_root }}"
+Filestash_tv_directory: "{{ tv_root }}"
+
+
+# If you're paranoid, set permissions to "ro" so Filestash won't ever be able to
+# delete your files
+Filestash_movies_permissions: "rw"
+Filestash_tv_permissions: "rw"
+
+# uid / gid
+Filestash_user_id: "0"
+Filestash_group_id: "0"
+
+# network
+Filestash_port_http: "8099"
+Filestash_hostname: "Filestash"
+
+# specs
+Filestash_memory: 1g

@@ -1,0 +1,43 @@
+---
+
+- name: installing aur packages
+  kewlfft.aur.aur:
+    name: "{{ java_aur_packages }}"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"
+
+
+
+
+
+
+# install jre8-openjdk from aur
+
+- name: Install jre8-openjdk from aur
+  kewlfft.aur.aur:
+    name: "jre8-openjdk"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"
+  when: ansible_os_family == 'Archlinux'
+
+
+# install jre-openjdk from aur
+- name: Install jre-openjdk from aur
+  kewlfft.aur.aur:
+    name: "jre-openjdk"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"
+  when: ansible_os_family == 'Archlinux'
+
+# install jdk8-openjdk from aur
+- name: Install jdk8-openjdk from aur
+  kewlfft.aur.aur:
+    name: "jdk8-openjdk"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"
+  when: ansible_os_family == 'Archlinux'
+# install jdk-openjdk from aur

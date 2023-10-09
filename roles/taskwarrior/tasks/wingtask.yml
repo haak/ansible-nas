@@ -1,0 +1,28 @@
+---
+- name: Unarchive a file that needs to be downloaded (added in 2.0)
+  ansible.builtin.unarchive:
+    src: "{{wingtask_config_link}}"
+    dest: /tmp/
+    remote_src: yes
+
+# - name: Download zsh installer
+#   get_url: 
+#     url: "{{wingtask_config_link}}" dest=/tmp/wingtask-config/install.sh
+
+
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: "/tmp/wingtask_configuration/install.sh"
+    owner: alex
+    group: alex
+    mode: '0755'
+
+
+
+- name: run install script for wingtask
+  shell: "cd /tmp/wingtask_configuration && /tmp/wingtask_configuration/install.sh"
+
+# - name: Remove the zsh-installer.sh
+#   file: 
+#     path: /tmp/wingtask-config/install.sh
+#     state: absent

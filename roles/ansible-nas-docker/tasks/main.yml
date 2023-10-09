@@ -31,6 +31,8 @@
     name: "{{ ansible_nas_user }}"
     groups: docker
     append: yes
+  become_user: root
+  become: true
 
 - name: Generate Docker daemon.json
   copy:

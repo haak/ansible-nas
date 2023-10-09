@@ -1,0 +1,15 @@
+# this should be called
+---
+- name: Run required roles
+  hosts: all
+  become: true
+  strategy: free
+  tasks:
+    - include_tasks: ./required-roles.yml
+      tags:
+        - always
+      # Note that it is key that the tag is applied on the task not on the play
+      # as tags applied on a play apply to all tasks in the play regardless of
+      # whether they're a dynamic import.
+      # It is also key that we use include_tasks so that the always tag is not
+      # inherited.

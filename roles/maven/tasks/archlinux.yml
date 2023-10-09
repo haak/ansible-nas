@@ -1,0 +1,9 @@
+---
+# install mvnvm from aur
+- name: Install mvnvm from aur
+  kewlfft.aur.aur:
+    name: "mvnvm"
+    use: yay
+  become: true
+  become_user: "{{user_name}}"
+  when: ansible_os_family == 'Archlinux'

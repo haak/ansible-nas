@@ -1,0 +1,7 @@
+---
+- name: install yncthing on arch
+  community.general.pacman:
+    name: "{{syncthing_package_aur}}"
+    state: present
+    update_cache: yes
+  become: true

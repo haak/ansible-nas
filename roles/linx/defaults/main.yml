@@ -1,0 +1,23 @@
+# ############
+# ### linx ###
+# ############
+
+# # https://github.com/andreimarcu/linx-server/
+
+linx_available_externally: "false"
+
+# directories
+linx_docker_image: andreimarcu/linx-server
+linx_data_directory: "{{ docker_home }}/linx"
+# linx_data_directory: "/home/alex/Docker/homeserver/linx/"
+# network
+linx_port_http: "10082"
+linx_port_https: "10446"
+linx_hostname: linx
+
+# uid / gid
+linx_user_id: "1315"
+linx_group_id: "1315"
+
+# specs
+linx_memory: 1g

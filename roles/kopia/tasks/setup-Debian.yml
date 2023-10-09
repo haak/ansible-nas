@@ -1,0 +1,9 @@
+# install kopia via apt
+- name: Install Kopia on Debian.
+  apt:
+    name: "{{kopia_package_debian}}"
+    state: present
+    update_cache: yes
+  become: yes
+  become_method: sudo
+  when: ansible_os_family == "Debian"

@@ -1,0 +1,11 @@
+---
+# defaults file for nginx_proxy_manager
+
+
+nginx_proxy_manager_enabled: false
+nginx_proxy_manager_data_directory: "{{ docker_home }}/nginx-proxy-manager"
+nginx_proxy_manager_port1: "80"
+nginx_proxy_manager_port2: "9901"
+nginx_proxy_manager_port3: "9902"
+nginx_proxy_manager_user_id: 1000
+nginx_proxy_manager_group_id: 1000

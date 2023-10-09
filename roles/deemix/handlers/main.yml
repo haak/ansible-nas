@@ -1,0 +1,15 @@
+---
+- name: Restart Deemix
+  docker_container:
+    name: "{{ deemix_container_name }}"
+    restart: true
+  listen: "restart deemix"
+
+- name: Stop Deemix
+  docker_container:
+    name: "{{ deemix_container_name }}"
+    state: absent
+  when: deemix_enabled is false
+  listen:
+    - "stop deemix"
+    - "stop disabled applications"

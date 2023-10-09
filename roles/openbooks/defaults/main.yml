@@ -1,0 +1,4 @@
+openbooks_data_directory: "{{ docker_home }}/openbook"
+openbooks_state: started
+openbooks_port: 7779
+openbooks_command: "--persist --name xxxxxx --searchbot search --server irc.irchighway.net:6697 --tls true --useragent \"OpenBooks v4.5.0\""

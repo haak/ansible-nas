@@ -1,0 +1,25 @@
+- name: install cockpit
+  ansible.builtin.package:
+    name: cockpit
+    state: present
+
+- name: install cockpit file sharing
+  ansible.builtin.package:
+    name: cockpit-file-sharing
+    state: present
+
+- name: install cockpit machines
+  ansible.builtin.package:
+    name: cockpit-machines
+    state: present
+
+- name: install cockpit-podman
+  ansible.builtin.package:
+    name: cockpit-podman
+    state: present
+
+- name: install cockpit-navigator
+  ansible.builtin.package:
+    name: cockpit-navigator
+    state: present
+  notify: Restart cockpit

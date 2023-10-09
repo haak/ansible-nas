@@ -1,0 +1,27 @@
+---
+- name: Create dashdot container
+  docker_container:
+    name: dashdot
+    image: "{{ dashdot_docker_image }}"
+    pull: true
+    state: started
+    privileged : true
+    volumes:
+      - "/:/mnt/host:ro"
+    env:
+      # PUID: "{{ user_id }}"
+      # PGID: "{{ group_id }}"
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "{{ dashdot_port_http }}:3001"
+    restart_policy: unless-stopped
+  when: dashdot_enabled is defined and dashdot_enabled
+
+
+# # stop dashdot
+# - name: Stop dashdot container
+#   docker_container:
+#     name: dashdot
+#     state: absent
+#   when: not dashdot_enabled is defined or not dashdot_enabled
+  

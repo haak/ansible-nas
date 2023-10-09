@@ -1,0 +1,11 @@
+deemix_enabled: false
+deemix_available_externally: "false"
+deemix_port_http: "6595"
+deemix_hostname: "deemix"
+deemix_user_id: "1000"
+deemix_group_id: "1000"
+deemix_memory: 1g
+music_directory: "{{samba_shares_root}}/music"
+deemix_config: "{{docker_home}}/deemix"
+deemix_container_name: deemix
+deemix_remove: false

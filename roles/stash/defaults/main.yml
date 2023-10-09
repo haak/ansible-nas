@@ -1,0 +1,13 @@
+stash_enabled: false
+stash_available_externally: "false"
+stash_user_id: "1000"
+stash_group_id: "1000"
+# directories
+stash_config_directory: "{{ docker_home }}/stash/config"
+stash_data: "{{storage_root}}/stash/adult"
+stash_metadata: "{{ storage_root }}/stash/metadata"
+stash_cache: "{{storage_root}}/stash/cache"
+stash_generated: "{{storage_root}}/stash/generated"
+stash_hostname: "stash"
+stash_port: "9998"
+stash_memory: "1g"

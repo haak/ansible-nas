@@ -1,0 +1,116 @@
+# TODO: autojump
+# TODO: tealdeer
+
+aur_packages:
+  - ansible-core
+  - ansible
+  - ansible-lint
+  - yay
+  - alacritty
+  - cryptomator-bin
+  - barrier
+  - dbeaver
+  - discord
+  - exa
+  - firefox
+  - firefox-developer-edition
+  - fzf
+  - htop
+  - intellij-idea-community-edition
+  - ncdu
+  - neofetch
+  - neovim
+  - nmap
+  - ranger
+  - task
+
+other_packages:
+  - activitywatch-bin
+  - geary
+  - mullvad-vpn-bin
+  - paru
+  - yuzu
+  - mutt
+  - speedread
+
+aur_packages2:
+  - telegram-desktop
+  - thunderbird
+  - tilix
+  - tmux
+  - traceroute
+  - trash-cli
+  - vagrant
+  - veracrypt
+  - vim
+  - visual-studio-code-bin
+  - vlc
+  - wireguard-tools
+  - zoom
+  - zsh
+  - zsh-autosuggestions
+  - oh-my-zsh
+  - rofi
+  - xclip
+  - handbrake
+  - okular
+  - qbittorrent
+  - element-desktop
+  - nnn
+  - czkawka-gui-bin
+  - parsec
+  - mpv
+  - docker
+  - firefox-developer-edition
+  - okular
+  - jdk
+  - tailscale
+  - tailscale-systray-git
+  - ttf-iosevka-nerd
+  - jq
+  - imwheel
+  - zerotier-one
+  - jdk8-openjdk
+  - shotwell
+  - go
+  - speedtest-cli
+  - syncthing-gtk-python3
+  - authenticator
+  - bottom
+  - httm
+  - xplr
+  - cockpit
+  - helm
+  - kubie
+  - k9s
+  - kubecolor
+  - kubectl
+  - fractal
+  - bitwarden
+  - bitwarden-cli-bin
+
+flatpak_packages:
+  - com.github.alainm23.planner
+  - com.github.jeromerobert.pdfarranger
+  - com.github.liferooter.textpieces
+  - com.google.AndroidStudio
+  # - com.microsoft.Teams
+  - com.moonlight_stream.Moonlight
+  - com.rafaelmardojai.Blanket
+  # - com.spotify.Client
+  # - com.valvesoftware.Steam
+  - fr.romainvigier.MetadataCleaner
+  # - kopia.KopiaUI
+  # - mattermost
+  # - md.obsidian.Obsidian
+  # - me.kozec.syncthingtk
+  - net.daase.journable
+  - org.emilien.SpaceLaunch
+  - org.gabmus.hydrapaper
+  - org.gabmus.whatip
+  # - org.mozilla.Thunderbird
+
+# TODO: install cockpit client
+
+
+wallpaper_url: "file:///home/alex/projects/ansible/ansible-nas/roles/workstation/files/wallpaper.png"

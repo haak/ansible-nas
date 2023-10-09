@@ -1,0 +1,6 @@
+beancount_fava_enabled: false
+beancount_docker_enabled: false
+beancount_pkg_enabled: false
+
+beancount_fava_config_directory: /home/{{ansible_nas_user}}/.bean
+beancount_port_http: 5000

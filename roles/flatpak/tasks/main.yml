@@ -1,0 +1,21 @@
+---
+# check flatpack is installed
+- name: Install, configure, and start Flatpak
+  block:
+    - name: Check Flatpack can be installed
+      ansible.builtin.command: flatpak --version
+      register: flatpack_installed
+      ignore_errors: true
+
+    - name: Install Flatpack
+      ansible.builtin.package:
+        name: flatpak
+        state: present
+      when: flatpack_installed.rc != 0
+
+    - name: Install Flatpack packages
+      community.general.flatpak:
+        name: "{{ flatpak_packages }}"
+        state: present
+      when: flatpack_installed.rc == 0
+  when: flatpak_packages is defined

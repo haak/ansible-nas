@@ -1,0 +1,7 @@
+---
+
+- name: restart homepage
+  docker_container:
+    name: "{{ homepage_container_name }}"
+    state: started
+    restart: yes

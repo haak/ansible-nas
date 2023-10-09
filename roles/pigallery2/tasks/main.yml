@@ -1,0 +1,25 @@
+---
+# - name: Create pigallery2 Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   with_items:
+#     - "{{ pigallery2_data_directory }}"
+
+
+- name: pigallery2 Docker Container
+  docker_container:
+    name: pigallery2
+    image: bpatrik/pigallery2:latest
+    pull: true
+    ports:
+      - "{{pigallery2_port}}:80/tcp"
+    volumes:
+      - "{{pigallery2_config}}:/app/data/config"
+      - "{{pigallery2_db}}:/app/data/db"
+      - "{{pigallery2_images}}:/app/data/images:ro" # CHANGE ME, ':ro' mean read-only
+      - "{{pigallery2_tmp}}:/app/data/tmp" # CHANGE ME
+    env:
+      NODE_ENV: production
+    restart_policy: unless-stopped
+    # memory: "{{ pigallery2_memory }}"

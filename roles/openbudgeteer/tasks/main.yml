@@ -1,0 +1,23 @@
+# https://github.com/TheAxelander/OpenBudgeteer
+---
+# - name: Create openbudgeteer Directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     mode: 0777
+#   with_items:
+#     - "{{ openbudgeteer_data_directory }}/app"
+
+
+- name: Create openbudgeteer container
+  docker_container:
+    name: openbudgeteer
+    image: axelander/openbudgeteer:latest
+    state: "{{openbudgeteer_state}}"
+    volumes:
+      - "{{ openbudgeteer_data_directory }}/app/database:/app/database"
+    ports:
+      - "{{ openbudgeteer_port }}:80"
+    env:
+      "Connection:Provider": "sqlite"
+    restart_policy: unless-stopped

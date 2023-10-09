@@ -21,6 +21,8 @@ roles:
   - name: geerlingguy.samba
   - name: petermosmans.customize-gnome
   - name: nginxinc.nginx
+  - name: geerlingguy.docker_arm
+    version: 5.0.0
 
   - name: hurricanehrndz.rustup
   - name: artis3n.tailscale
@@ -29,3 +31,6 @@ roles:
 
 collections:
   - name: kewlfft.aur
+  - name: ansible.posix
+  - name: community.docker
+  - name: community.general

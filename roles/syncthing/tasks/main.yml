@@ -1,15 +1,17 @@
 ---
-- name: Create Syncthing Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ syncthing_data_directory }}"
+- name: Start Syncthing
+  block:
+    - name: Create Syncthing Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ syncthing_data_directory }}"
 
 - name: Syncthing Docker Container
   community.docker.docker_container:
-    name: syncthing
-    image: syncthing/syncthing:latest
+    name: "{{ syncthing_container_name }}"
+    image: "{{ syncthing_image_name }}:{{ syncthing_image_version }}"
     pull: true
     ports:
       - "{{ syncthing_port }}:8384"
@@ -28,3 +30,12 @@
       traefik.http.routers.syncthing.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.syncthing.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.syncthing.loadbalancer.server.port: "8384"
+  when: syncthing_enabled is true
+
+- name: Stop Syncthing
+  block:
+    - name: Stop Syncthing
+      community.docker.docker_container:
+        name: "{{ syncthing_container_name }}"
+        state: absent
+  when: syncthing_enabled is false

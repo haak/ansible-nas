@@ -3,7 +3,7 @@ run:
 run1:
 	ansible-playbook -i inventories/inventory.yml nas.yml -K --limit pc-its130
 tagged:
-	ansible-playbook -i inventories/inventory.yml main.yml --vault-password-file ~/.vault_pass --tags $(tag)
+	ansible-playbook -i inventories/inventory.yml main.yml --become-password-file ./.vault_pass --tags $(tag)
 
 run-limit:
 	ansible-playbook -i inventories/inventory.yml --limit $(host) main.yml --vault-password-file ~/.vault_pass

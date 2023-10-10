@@ -9,6 +9,7 @@ roles/bertvv.samba
 roles/geerlingguy.docker
 roles/geerlingguy.nfs
 roles/golink/
+docker/homeserver-config
 
 # Vim
 [._]sw[a-p]

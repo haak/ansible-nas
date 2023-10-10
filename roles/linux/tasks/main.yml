@@ -5,7 +5,7 @@
 - block:
     - import_tasks: ansible.yml
     - import_tasks: alex.yml
-    - import_tasks: root.yml
+    # - import_tasks: root.yml
     - import_tasks: ssh.yml
     # - import_tasks: tmux.yml
     - import_tasks: packages.yml

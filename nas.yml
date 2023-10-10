@@ -25,18 +25,16 @@
       when: (nfs_enabled | default(False))
 
     - role: geerlingguy.docker
-      when: ansible_architecture == "x86_64"
+      when: ansible_architecture == "x86_64" and geerlingguy_docker_enabled | default(False)
       tags:
         - docker
         - skip_ansible_lint
 
     - role: geerlingguy.docker_arm
-      when: ansible_architecture == "aarch64"
+      when: ansible_architecture == "aarch64" and geerlingguy_docker_enabled | default(False)
       tags:
         - docker_arm
         - skip_ansible_lint
-
-      when: (geerlingguy_docker_enabled | default(False))
 
     - role: hurricanehrndz.rustup
       tags:

@@ -17,7 +17,7 @@
   community.docker.docker_network:
     name: nginx_proxy_manager_nw1
     internal: no
-    
+
 
 - name: nginx_proxy_manager
   docker_container:

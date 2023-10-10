@@ -6,3 +6,10 @@
 - name: include tasks for ArchLinux
   include_tasks: archlinux.yml
   when: ansible_os_family == "ArchLinux"
+
+# TODO: install cockpit via apt
+# TODO: install cockpit extensions via deb via github. 
+# https://github.com/45Drives/cockpit-navigator
+# https://github.com/45Drives/cockpit-identities
+
+# https://github.com/45Drives/cockpit-file-sharing

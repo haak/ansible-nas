@@ -8,6 +8,7 @@ inventories
 roles/bertvv.samba
 roles/geerlingguy.docker
 roles/geerlingguy.nfs
+roles/golink/
 
 # Vim
 [._]sw[a-p]

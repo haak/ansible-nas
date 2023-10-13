@@ -1,0 +1,6 @@
+---
+Homarr_docker_image: ghcr.io/ajnart/homarr:latest
+Homarr_container_name: homarr
+Homarr_data_directory: /mnt/data/homarr
+Homarr_port_http: 7575
+ansible_nas_timezone: Europe/Amsterdam

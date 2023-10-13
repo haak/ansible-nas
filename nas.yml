@@ -841,3 +841,7 @@
       tags:
         - serviio
       when: (serviio_enabled | default(False))
+    - role: semaphore
+      tags:
+        - semaphore
+      when: (semaphore_enabled | default(False))

@@ -79,8 +79,6 @@ roles/photoview/defaults/main.yml
 roles/samba/defaults/main.yml
 roles/samba/tasks/main.yml
 roles/firefly-3/tasks/main.yml
-roles/semaphore/defaults/main.yml
-roles/semaphore/tasks/main.yml
 roles/server/defaults/main.yml
 roles/linux/tasks/kopia.yml
 roles/linux/tasks/alex.yml

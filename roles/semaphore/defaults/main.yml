@@ -1,0 +1,11 @@
+---
+semaphore_data_directory: "{{ docker_home}}/semaphore"
+semaphore_container_name: "Semaphore"
+semaphore_docker_image: "semaphoreui/semaphore"
+semaphore_db_dialect: "bolt"
+semaphore_admin_password: "changeme"
+semaphore_admin_name: "admin"
+semaphore_admin_email: "admin@localhost"
+semaphore_admin: "admin"
+semaphore_enabled: false
+semaphore_http_port: 8546

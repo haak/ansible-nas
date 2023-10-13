@@ -1,18 +1,14 @@
 - name: Create Homarr container
   docker_container:
-    name: Homarr
+    name: "{{ Homarr_container_name }}}"
     image: "{{ Homarr_docker_image }}"
     pull: true
     state: started
     volumes:
-      - "{{ Homarr_data_directory }}:/www/assets"
+      - "{{ Homarr_data_directory }}:/app/public/icons"
+      - "{{ Homarr_directory }}/configs:/app/data/configs"
     env:
-      # PUID: "{{ user_id }}"
-      # PGID: "{{ group_id }}"
       TZ: "{{ ansible_nas_timezone }}"
     ports:
-      - "{{ Homarr_port_http }}:8080"
+      - "{{ Homarr_port_http }}:7575"
     restart_policy: unless-stopped
-    # networks:
-    #   - name: "nginx_proxy_manager_nw"
-    #   - name: "Homarr_nw"

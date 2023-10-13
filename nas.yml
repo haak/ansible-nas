@@ -845,3 +845,7 @@
       tags:
         - semaphore
       when: (semaphore_enabled | default(False))
+    - role: homarr
+      tags:
+        - homarr
+      when: (homarr_enabled | default(False))

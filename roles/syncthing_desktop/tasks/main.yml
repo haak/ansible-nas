@@ -1,25 +1,33 @@
 ---
-- import_tasks: syncthing_install.yml
+- ansible.builtin.import_tasks:
+    file: syncthing_install.yml
   when: syncthing_pkg_enabled
-- import_tasks: start.yml
+
+- ansible.builtin.import_tasks:
+    file: start.yml
   when: syncthing_package_enabled
-- import_tasks: syncthing-docker.yml
+
+- ansible.builtin.import_tasks:
+    file: syncthing-docker.yml
   when: syncthing_docker_enabled
 
-
-# this also includes ubuntu
-- include: debian.yml
+- ansible.builtin.include_tasks:
+    file: debian.yml
   when: ansible_os_family == 'Debian'
   tags: package
 
-# - include: redhat.yml
-#   when: ansible_os_family == 'RedHat'
-#   tags: package
+- ansible.builtin.include_tasks:
+    file: redhat.yml
+  when: ansible_os_family == 'RedHat'
+  tags: package
 
-- include: arch.yml
+- ansible.builtin.include_tasks:
+    file: arch.yml
   when: ansible_os_family == 'Archlinux'
   tags: package
 
-- wait_for: port=8384 delay=3 timeout=5
-
+- ansible.builtin.wait_for:
+    port: 8384
+    delay: 3
+    timeout: 5
 # https://github.com/le9i0nx/ansible-syncthing/tree/master/tasks

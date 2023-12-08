@@ -1,6 +1,6 @@
 ---
 - name: Update cache and upgrade
-  pacman:
+  community.general.pacman:
     update_cache: yes
     upgrade: yes
     upgrade_extra_args: "--noconfirm"
@@ -9,7 +9,7 @@
     - pre
 
 - name: Install Utils
-  pacman:
+  community.general.pacman:
     name: '{{ utils }}'
     state: present
   become: true
@@ -17,7 +17,8 @@
     - utils
 
 - name: Install Utils from Arch User Repository
-  shell: |
+  ansible.builtin.shell: |
+    set -o pipefail
     pamac build -d --no-confirm {{ item }} | grep "is up to date"
     if [ $? != 0 ]; then
       pamac build --no-confirm {{ item }}
@@ -31,14 +32,25 @@
     - base
     - aur
 
-- include: ntp.yml
-- include: pip.yml
-- include: bash.yml
-- include: zsh.yml
-- include: terminator.yml
+
+- ansible.builtin.include_tasks:
+    file: ntp.yml
+
+- ansible.builtin.include_tasks:
+    file: pip.yml
+
+- ansible.builtin.include_tasks:
+    file: bash.yml
+
+- ansible.builtin.include_tasks:
+    file: zsh.yml
+
+- ansible.builtin.include_tasks:
+    file: terminator.yml
+
 
 - name: Creates Workspace directory
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/Workspace
     state: directory
   become_user: '{{ user_name }}'

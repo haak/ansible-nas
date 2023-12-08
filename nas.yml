@@ -121,7 +121,6 @@
       tags:
         - logging
 
-
     ###
     ### Stacks
     ###
@@ -129,7 +128,6 @@
     - role: logging
       tags:
         - logging
-
 
     ###
     ### Applications

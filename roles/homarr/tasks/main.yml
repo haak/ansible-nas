@@ -1,14 +1,15 @@
-- name: Create Homarr container
-  docker_container:
-    name: "{{ Homarr_container_name }}}"
-    image: "{{ Homarr_docker_image }}"
+---
+- name: Create homarr container
+  community.docker.docker_container:
+    name: "{{ homarr_container_name }}"
+    image: "{{ homarr_docker_image }}"
     pull: true
     state: started
     volumes:
-      - "{{ Homarr_data_directory }}:/app/public/icons"
-      - "{{ Homarr_directory }}/configs:/app/data/configs"
+      - "{{ homarr_data_directory }}/icons:/app/public/icons"
+      - "{{ homarr_data_directory }}/configs:/app/data/configs"
     env:
       TZ: "{{ ansible_nas_timezone }}"
     ports:
-      - "{{ Homarr_port_http }}:7575"
+      - "{{ homarr_port_http }}:7575"
     restart_policy: unless-stopped

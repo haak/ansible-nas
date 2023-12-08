@@ -1,18 +1,28 @@
 ---
 - name: Install Developer Tools
-  pacman:
-    name: '{{ developer_stack }}'
+  community.general.pacman:
+    name: "{{ developer_stack }}"
     state: present
-  become_user: 'root'
+  become_user: "root"
   become: yes
   tags:
     - dev-tools
 
-- include: go.yml
+- ansible.builtin.include_tasks:
+    file: go.yml
+
+- ansible.builtin.include_tasks:
+    file: nvm.yml
+
+- ansible.builtin.include_tasks:
+    file: docker-config.yml
+
+- ansible.builtin.include_tasks:
+    file: emacs-config.yml
 
 - name: Install Developer Tools from Arch User Repository
-  script: ../../../aur/install-aur.sh {{ item }}
-  with_items: '{{ developer_stack_aur }}'
+  ansible.builtin.script: ../../../aur/install-aur.sh {{ item }}
+  with_items: "{{ developer_stack_aur }}"
   register: install_result
   changed_when: install_result.rc == 0
   failed_when: install_result.rc != 0 and install_result.rc != 255
@@ -20,7 +30,3 @@
   tags:
     - dev-tools
     - aur
-
-- include: nvm.yml
-- include: docker-config.yml
-- include: emacs-config.yml
